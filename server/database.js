@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const connectionString = process.env.MONGO_DB_URI
+const connectionString = "mongodb+srv://admin:kSIrpGj64bO6X6YM@webppj.pd5xy.mongodb.net/example?retryWrites=true&w=majority"
 mongoose.connect(connectionString)
   .then(() => {
     console.log('Conectado con la base de datos')
