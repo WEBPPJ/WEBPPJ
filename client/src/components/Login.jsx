@@ -5,7 +5,7 @@ import video from '../assets/video.mp4'
 
 const Login = () => {
 
-  const [inputs, setInputs] = useState({ correo: "", contraseña: "" });
+  const [inputs, setInputs] = useState({ code: "", password: "" });
   const [mensaje, setMensaje] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -15,7 +15,38 @@ const Login = () => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  const { correo, contraseña } = inputs;
+  //TODO: Crear codigo para enviar la info del formulario al server, ej (En este caso, instalar axios):
+  // const onSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (correo !== "" && contraseña !== "") {
+  //     const Usuario = {
+  //       correo,
+  //       contraseña,
+  //     };
+  //     setLoading(true);
+  //     await axios
+  //       .post("http://localhost:4000/login", Usuario)
+  //       .then((res) => {
+  //         const { data } = res;
+  //         setMensaje(data.mensaje);
+  //         setTimeout(() => {
+  //           setMensaje("");
+  //           navigate(`/welcome/${data?.usuario.id}`);
+  //         }, 1500);
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //         setMensaje("Correo u contraseña incorrecta");
+  //         setTimeout(() => {
+  //           setMensaje("");
+  //         }, 1500);
+  //       });
+  //     setInputs({ correo: "", contraseña: "" });
+  //     setLoading(false);
+  //   }
+  // };
+
+  const { code, password } = inputs;
 
   return (
     <div className="box">
@@ -33,14 +64,14 @@ const Login = () => {
         <form>
           <div className="inputContainer">
             <div className="left">
-              <label htmlFor="correo">Correo</label>
+              <label htmlFor="code">Código</label>
               <input
                 onChange={(e) => HandleChange(e)}
-                value={correo}
-                name="correo"
-                id="correo"
+                value={code}
+                name="code"
+                id="code"
                 type="email"
-                placeholder="Correo..."
+                placeholder="Código..."
                 autoComplete="off"
               />
             </div>
@@ -48,12 +79,12 @@ const Login = () => {
 
           <div className="inputContainer">
             <div className="left">
-              <label htmlFor="contraseña">Contraseña</label>
+              <label htmlFor="password">Contraseña</label>
               <input
                onChange={(e) => HandleChange(e)}
-                value={contraseña}
-                name="contraseña"
-                id="contraseña"
+                value={password}
+                name="password"
+                id="password"
                 type="password"
                 placeholder="Contraseña..."
                 autoComplete="off"
@@ -65,6 +96,7 @@ const Login = () => {
           </button>
         </form>
       </div>
+        {mensaje && <div className="toast">{mensaje}</div>}
     </div>
   )
 }

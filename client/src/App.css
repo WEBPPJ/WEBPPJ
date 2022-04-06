@@ -1,3 +1,12 @@
+/** ACL Paleta de Colores */
+:root {
+  --red: #E02957;
+  --white: #FFFFFF;
+  --dark: #1F2937;
+  --grey: #6B7280;
+  --light-grey: #C6CFD2;
+}
+
 .App {
   text-align: center;
 }
@@ -37,7 +46,7 @@
 .formContainer h2 {
   font-size: 30px;
   font-weight: bolder;
-  color: #6358dc;
+  color: var(--red);
 }
 .formContainer form {
   margin-top: 30px;
@@ -49,7 +58,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #ececec;
+  background-color: var(--white);
   padding: 10px 15px;
   border-radius: 8px;
 }
@@ -60,7 +69,8 @@
   width: 80%;
 }
 .formContainer form .inputContainer .left label {
-  font-size: 11px;
+  text-align: start;
+  font-size: 12px;
 }
 .formContainer form .inputContainer .left input {
   border: none;
@@ -78,12 +88,12 @@
   font-weight: 700;
   font-size: 16px;
   color: white;
-  background-color: #6358dc;
+  background-color: var(--red);
   border-radius: 8px;
   transition-duration: 0.3s;
 }
 .formContainer form button:hover {
-  background-color: #4235d6;
+  background-color: var(--red);
 }
 .formContainer form p {
   text-align: center;
@@ -91,14 +101,14 @@
 }
 .formContainer form p b {
   cursor: pointer;
-  color: #6358dc;
+  color: var(--red);
 }
 .formContainer form p b:hover {
   text-decoration: underline;
 }
 .toast {
   transition-duration: 0.3s;
-  background-color: #6358dc 75;
+  background-color: var(--red) 75;
   border-radius: 8px;
   width: 30%;
   text-align: center;
@@ -107,39 +117,6 @@
   margin-bottom: 15px;
   padding: 10px;
 }
-.welcome {
-  padding: 35px 75px;
-  background-color: white;
-  border-radius: 8px;
-  text-align: center;
-}
-.welcome h2 {
-  font-weight: bold;
-  color: #6358dc;
-  font-size: 25px;
-}
-.welcome h3 {
-  font-weight: normal;
-  color: #2f2f2f;
-}
-.welcome .buttons {
-  display: flex;
-  gap: 25px;
-  justify-content: center;
-  margin-top: 15px;
-}
-.welcome .buttons button {
-  background-color: #6358dc;
-  border: none;
-  cursor: pointer;
-  color: white;
-  padding: 5px 20px;
-  border-radius: 3px;
-  transition-duration: 0.3s;
-}
-.welcome .buttons button:hover {
-  background-color: #4235d6;
-}
 
 .box {
   width: 100vw;
@@ -147,4 +124,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+input:focus {
+  outline-color: var(--white);
+}
+
+footer {
+  background-color: var(--dark);
 }
