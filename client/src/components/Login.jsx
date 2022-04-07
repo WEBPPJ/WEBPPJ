@@ -70,7 +70,7 @@ const Login = () => {
                 value={code}
                 name="code"
                 id="code"
-                type="email"
+                type="number"
                 placeholder="Código..."
                 autoComplete="off"
               />
