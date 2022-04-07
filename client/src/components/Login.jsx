@@ -50,7 +50,6 @@ const Login = () => {
 
   return (
     <div className="box">
-      
       <video className='video'
         autoPlay
         loop
