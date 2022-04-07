@@ -26,6 +26,12 @@
   transform: translate(-50%, -50%);
   z-index: -1;
 }
+.containerp-1{ 
+  background: gray; 
+  min-height: 90%;
+  min-width: 100%; 
+
+ }
 .Container-h1{
   font-weight: normal;
   color: white;

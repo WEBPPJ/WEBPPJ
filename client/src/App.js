@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 import NavbarExample from './layouts/Navbar';
+import Syllabus from './components/Syllabus';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<NavbarExample/>}>
               <Route index element={<Home/>}/>
               <Route path="user/login" element={<Login/>}/>
+              <Route path="user/syllabus" element={<Syllabus/>}/>
               <Route path="user/register" element={<Register/>}/>
               <Route path="plan" element={<Register/>}/>
               <Route path="*" element={ <Navigate replace to="/"/> } />
