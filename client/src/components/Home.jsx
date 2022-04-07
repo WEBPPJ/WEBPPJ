@@ -1,5 +1,8 @@
 import React from 'react'
+import { Col, Container, Row, Button } from 'react-bootstrap'
 import video from '../assets/video.mp4'
+import { Link } from 'react-router-dom'
+
 
 const Home = () => {
   return (
@@ -10,7 +13,25 @@ const Home = () => {
         muted>
         <source src={video} type="video/mp4"/>
       </video>
-      <h1 className=''>Home</h1>
+      <Container>
+            <Row className='mt-5'>
+                <Col > 
+                <h1 style={{color:'#E02957'}}>Bienvenido WEBPPJ</h1>
+                <h3 style={{color:'white'}}>Aqui puedes acceder a enlaces correspondientes a los distintos programmas de estudios del programa profecionales jovenes de ACL</h3>
+                <p style={{color:'white'}}>Puedes ingresar a enlaces y sugerir los que creas utiles para cada programa</p>
+                <div>
+                    <Link to={'/login'} style={{color:'#E02957'}}>Ingresa aquí</Link> 
+                </div>
+                </Col>
+                <Col>
+                <img
+                    className='img-fluid'
+                    src="\img\task-manager.svg"
+                    alt="gestor-de-tareas"
+                ></img>
+                </Col>
+            </Row>
+        </Container>
     </div>
   )
 }
