@@ -16,7 +16,7 @@ const NavbarExample = () => {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             {user && <Nav.Link as={Link} to="/users">Users</Nav.Link> }
-                            {user && <Nav.Link as={Link} to="/plan">Plan de estudio</Nav.Link> }
+                            {user && <Nav.Link as={Link} to="/syllabus">Planes de estudio</Nav.Link> }
                         </Nav>
                         <Nav>
                             <Nav.Link as={Link} to="/users/login">Login</Nav.Link>
