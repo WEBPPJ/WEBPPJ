@@ -1,5 +1,5 @@
-import React from 'react'
-import { Button, Card, Col, Container, Row, Table } from 'react-bootstrap'
+import React, { useState } from 'react'
+import { Button, Card, Col, Container, Row, Table, Modal } from 'react-bootstrap'
 import logo from '../assets/acl_logo.webp'
 import { RiAdminFill } from 'react-icons/ri'
 import { IconContext } from 'react-icons/lib'
@@ -9,7 +9,7 @@ import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import { MdAdd } from 'react-icons/md'
 
 //* Usuarios de Prueba
-const users = [
+const dataUsers = [
     {
         code: 20,
         _id: "04324242F",
@@ -17,15 +17,21 @@ const users = [
     },
     {
         code: 21,
-        _id: "043324242F",
+        _id: "04332432242F",
         rol: 1
     },
     {
         code: 22,
-        _id: "043324242F",
+        _id: "04334124242F",
         rol: 2
     },
 ]
+
+const initialUser = {
+    _id: 0,
+    code: 0,
+    rol: 0
+}
 
 /* 
 *       Roles
@@ -35,22 +41,73 @@ const users = [
 */
 
 const rolIcon = (rol) => {
-    if(rol === 2) {
-        return <IconContext.Provider value={{ color: "black", size: "2em"}}>
-                    <RiAdminFill/>
-                </IconContext.Provider>
+    if (rol === 2) {
+        return <IconContext.Provider value={{ color: "black", size: "2em" }}>
+            <RiAdminFill />
+        </IconContext.Provider>
     } else if (rol === 1) {
-        return <IconContext.Provider value={{ color: "black", size: "2em"}}>
-                    <BiSupport/>
-                </IconContext.Provider>
+        return <IconContext.Provider value={{ color: "black", size: "2em" }}>
+            <BiSupport />
+        </IconContext.Provider>
     } else {
-        return <IconContext.Provider value={{ color: "black", size: "2em"}}>
-                    <FaUserAlt/>
-                </IconContext.Provider>
+        return <IconContext.Provider value={{ color: "black", size: "2em" }}>
+            <FaUserAlt />
+        </IconContext.Provider>
     }
-  };
+};
 
 const Users = () => {
+
+    const [users, setUsers] = useState(dataUsers)
+    const [editModal, setEditModal] = useState(false)
+    const [deleteModal, setDeleteModal] = useState(false)
+    const [addModal, setAddModal] = useState(false)
+
+    const [selectedUser, setSelectedUser] = useState(initialUser)
+
+    const selectUser = (user, action) => {
+        setSelectedUser(user);
+        (action === 'Edit') ? setEditModal(true) : setDeleteModal(true)
+    }
+    
+    const openAddModal = () => {
+        setSelectedUser(initialUser)
+        setAddModal(true)
+    }
+
+    const handleChange = (e) => {
+        //! Por alguna razón almacena el valor en String
+        //* Para ello se colocó el '+', afortunadamente, ambos campos son númericos
+        const { name, value } = e.target
+        setSelectedUser((prevState) => ({
+            ...prevState,
+            [name]: +value
+        }))
+    }
+
+    //TODO Cambiar para que funcione con MongoDB
+    const edit = () => {
+        var newUsers = users
+        newUsers.map(user => {
+            if (user._id === selectedUser._id) {
+                user.code = selectedUser.code
+                user.rol = selectedUser.rol
+            }
+        })
+        setUsers(newUsers)
+        setEditModal(false)
+    }
+    const softDelete = () => {
+        setUsers(users.filter(user => user._id !== selectedUser._id))
+        setDeleteModal(false)
+    }
+    const add = () => {
+        var newUser = selectedUser
+        var newUsers = users
+        newUsers.push(newUser)
+        setUsers(newUsers)
+        setAddModal(false)
+    }
 
     return (
         <Container className="d-flex justify-content-center pt-4">
@@ -58,42 +115,179 @@ const Users = () => {
                 <Card className=''>
                     <Card.Body>
                         <Card.Img className="logo" variant='top' src={logo} />
-                            <Card.Title>
-                                <Row>
+                        <Card.Title>
+                            <Row>
                                 <h5>Usuarios</h5>
                                 <div className="d-flex justify-content-end px-4">
-                                <Button variant="success"><IconContext.Provider value={{ color: "white"}}><MdAdd/></IconContext.Provider></Button>
+                                    <Button onClick={() => openAddModal()} variant="success"><IconContext.Provider value={{ color: "white" }}><MdAdd /></IconContext.Provider></Button>
                                 </div>
-                                </Row>
-                            </Card.Title>
-                            <div className="">
-                                <Table striped bordered hover size='sm'>
-                                    <thead>
-                                        <tr>
-                                            <th>Rol</th>
-                                            <th>Código</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            users.map(user => (
-                                                <tr>
-                                                    <td>{rolIcon(user.rol)}</td>
-                                                    <td>{user.code}</td>
-                                                    <td>
-                                                        <Button className='mx-2' variant="primary"><AiFillEdit/></Button>
-                                                        <Button variant="danger"><AiFillDelete/></Button>
-                                                    </td>
-                                                </tr>
-                                            ))
-                                        }
-                                    </tbody>
-                                </Table>
-                            </div>
+                            </Row>
+                        </Card.Title>
+                        <div className="">
+                            <Table striped bordered hover size='sm'>
+                                <thead>
+                                    <tr>
+                                        <th>Rol</th>
+                                        <th>Código</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        users.map(user => (
+                                            <tr key={user._id}>
+                                                <td>{rolIcon(user.rol)}</td>
+                                                <td>{user.code}</td>
+                                                <td>
+                                                    <Button className='mx-2' variant="primary" onClick={() => selectUser(user, 'Edit')}><AiFillEdit /></Button>
+                                                    <Button variant="danger" onClick={() => selectUser(user, 'Delete')}><AiFillDelete /></Button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    }
+                                </tbody>
+                            </Table>
+                        </div>
                     </Card.Body>
                 </Card>
             </Col>
+
+            {/* Modal de Editar */}
+            <Modal show={editModal}>
+                <Modal.Header>
+                    <div>
+                        <h3>Editar Usuario</h3>
+                    </div>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="form-group">
+                        <label>ID</label>
+                        <input
+                            className="form-control"
+                            readOnly
+                            type="text"
+                            name="_id"
+                            value={selectedUser && selectedUser._id}
+                        />
+                        <br />
+
+                        <label>Código</label>
+                        <input
+                            className="form-control"
+                            type="number"
+                            name="code"
+                            min='1'
+                            value={selectedUser && selectedUser.code}
+                            onChange={handleChange}
+                        />
+                        <br />
+
+                        <label>Rol</label>
+                        <input
+                            className="form-control"
+                            type="number"
+                            name="rol"
+                            max='3'
+                            min='0'
+                            value={selectedUser && selectedUser.rol}
+                            onChange={handleChange}
+                        />
+                        <br />
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button
+                        variant='primary'
+                        onClick={() => edit()}
+                    >
+                        Actualizar
+                    </Button>
+                    <Button
+                        variant='secondary'
+                        onClick={() => setEditModal(false)}
+                    >
+                        Cancelar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            {/*Modal de Eliminar */}
+            <Modal show={deleteModal}>
+                <Modal.Body>
+                    Estás Seguro que deseas al usuario con código: {selectedUser && selectedUser.code}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button
+                        variant="danger"
+                        onClick={() => softDelete()}
+                    >
+                        Sí
+                    </Button>
+                    <Button
+                        variant="secondary"
+                        onClick={() => setDeleteModal(false)}
+                    >
+                        No
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            {/* Modal de Agregar */}
+            <Modal show={addModal}>
+                <Modal.Header>
+                    <div>
+                        <h3>Agregar Usuario</h3>
+                    </div>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="form-group">
+                        <label>ID</label>
+                        <input
+                            className="form-control"
+                            type="text"
+                            name="_id"
+                            onChange={handleChange}
+                        />
+                        <br />
+
+                        <label>Código</label>
+                        <input
+                            className="form-control"
+                            type="number"
+                            name="code"
+                            min='1'
+                            value={selectedUser && selectedUser.code}
+                            onChange={handleChange}
+                        />
+                        <br />
+
+                        <label>Rol</label>
+                        <input
+                            className="form-control"
+                            type="number"
+                            name="rol"
+                            max='3'
+                            min='0'
+                            onChange={handleChange}
+                        />
+                        <br />
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button
+                        variant='primary'
+                        onClick={() => add()}
+                    >
+                        Actualizar
+                    </Button>
+                    <Button
+                        variant='danger'
+                        onClick={() => setAddModal(false)}
+                    > 
+                        Cancelar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </Container>
     )
 }

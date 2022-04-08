@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Container, Row, Button } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
 import video from '../assets/video.mp4'
 import { Link } from 'react-router-dom'
 
@@ -20,7 +20,7 @@ const Home = () => {
                 <h3 style={{color:'white'}}>Aqui puedes acceder a enlaces correspondientes a los distintos programmas de estudios del programa profecionales jovenes de ACL</h3>
                 <p style={{color:'white'}}>Puedes ingresar a enlaces y sugerir los que creas utiles para cada programa</p>
                 <div>
-                    <Link to={'/login'} style={{color:'#E02957'}}>Ingresa aquí</Link> 
+                    <Link to={'/users/login'} style={{color:'#E02957'}}>Ingresa aquí</Link> 
                 </div>
                 </Col>
                 <Col>
