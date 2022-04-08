@@ -70,6 +70,7 @@ const Login = () => {
                 name="code"
                 id="code"
                 type="number"
+                min="0"
                 placeholder="Código..."
                 autoComplete="off"
               />

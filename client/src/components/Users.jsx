@@ -203,7 +203,7 @@ const Users = () => {
                         Actualizar
                     </Button>
                     <Button
-                        variant='secondary'
+                        variant='outline-secondary'
                         onClick={() => setEditModal(false)}
                     >
                         Cancelar
@@ -224,7 +224,7 @@ const Users = () => {
                         Sí
                     </Button>
                     <Button
-                        variant="secondary"
+                        variant="outline-secondary"
                         onClick={() => setDeleteModal(false)}
                     >
                         No
@@ -278,10 +278,10 @@ const Users = () => {
                         variant='primary'
                         onClick={() => add()}
                     >
-                        Actualizar
+                        Agregar
                     </Button>
                     <Button
-                        variant='danger'
+                        variant='outline-secondary'
                         onClick={() => setAddModal(false)}
                     > 
                         Cancelar

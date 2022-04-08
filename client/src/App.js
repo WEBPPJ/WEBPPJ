@@ -3,7 +3,6 @@ import './App.css';
 import Footer from './components/Footer';
 import Home from './components/Home';
 import Login from './components/Login';
-import Register from './components/Register';
 import Users from './components/Users';
 import NavbarExample from './layouts/Navbar';
 import Syllabus from './components/Syllabus';
@@ -17,7 +16,6 @@ function App() {
               <Route index element={<Home/>}/>
               <Route path="users" element={<Users/>}/>
               <Route path="users/login" element={<Login/>}/>
-              <Route path="users/register" element={<Register/>}/>
               <Route path="syllabus" element={<Syllabus/>}/>
               <Route path="*" element={ <Navigate replace to="/"/> } />
           </Route>

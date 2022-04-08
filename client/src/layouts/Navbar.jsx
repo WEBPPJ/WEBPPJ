@@ -20,7 +20,6 @@ const NavbarExample = () => {
                         </Nav>
                         <Nav>
                             <Nav.Link as={Link} to="/users/login">Login</Nav.Link>
-                            <Nav.Link as={Link} to="/users/register">Register</Nav.Link>
                             {user && <Nav.Link as={Link} to="/user/profile">Profile</Nav.Link> }
                         </Nav>
                     </Navbar.Collapse>
