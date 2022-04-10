@@ -7,23 +7,30 @@ import Register from './components/Register';
 import Users from './components/Users';
 import NavbarExample from './layouts/Navbar';
 import Syllabus from './components/Syllabus';
+import routes from './auth/helpers/routes';
+import PrivateRoute from './routers/PrivateRoute';
+import PublicRoute from './routers/PublicRoute';
+import AuthProvider from './auth/AuthProvider';
 
 function App() {
   return (
     <div className="App">
+      
       <BrowserRouter>
+        
         <Routes>
-          <Route path="/" element={<NavbarExample/>}>
+          <Route path={routes.home} element={<NavbarExample/>}>
               <Route index element={<Home/>}/>
-              <Route path="users" element={<Users/>}/>
-              <Route path="users/login" element={<Login/>}/>
-              <Route path="users/register" element={<Register/>}/>
-              <Route path="plan" element={<Register/>}/>
+              <Route path={routes.users} element={<Users/>}/>
+              <Route path={routes.login} element={<Login/>}/>
+              <Route path={routes.register} element={<Register/>}/>
+              <Route path={routes.plan} element={<Register/>}/>
               <Route path="*" element={ <Navigate replace to="/"/> } />
           </Route>
         </Routes>
       </BrowserRouter>
       <Footer/>
+
     </div>
   );
 }
