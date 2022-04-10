@@ -6,48 +6,16 @@ const data = [
   {
     _id: 123131223,
     name: 'MERN',
-    links: [
-      {
-        _id: 23131,
-        link: 'http://localhost:3000/syllabus'
-      },
-      {
-        _id: 1231,
-        link: 'http://localhost:3000/syllabus'
-      },
-      {
-        _id: 21343,
-        link: 'http://localhost:3000/syllabus'
-      },
-    ]
   },
   {
     _id: 123133421223,
     name: 'SpringBoot',
-    links: [
-      {
-        _id: 213131,
-        link: 'http://localhost:3000/syllabus'
-      },
-      {
-        _id: 12331,
-        link: 'http://localhost:3000/syllabus'
-      },
-      {
-        _id: 214343,
-        link: 'http://localhost:3000/syllabus'
-      },
-    ]
   },
 ]
 
 const initialSyll = {
   _id: 0,
   name: '',
-  links: {
-    _id: 0,
-    link: ''
-  }
 }
 
 const Syllabus = () => {
@@ -71,7 +39,7 @@ const Syllabus = () => {
     var newSylls = syllabus
     newSylls.push(newSyll)
     setSyllabus(newSylls)
-    console.log(newSylls);
+    console.log(newSylls)
     setAddModal(false)
   }
 
@@ -79,6 +47,16 @@ const Syllabus = () => {
     setSyllabus(syllabus.filter(syll => syll._id !== id))
     console.log(id);
     console.log(syllabus);
+  }
+  
+  const edit = (selectedSyll) => {
+    var newSylls = syllabus
+    newSylls.map(syll => {
+      if(syll._id === selectedSyll._id) {
+        syll.name = selectedSyll.name
+      }
+    })
+    setSyllabus(newSylls)
   }
 
   return (
@@ -93,7 +71,7 @@ const Syllabus = () => {
           )
           : (
             syllabus.map((element) => (
-              <SyllabusCard deleteSyll={deleteSyll} syllabus={element} key={element._id} />
+              <SyllabusCard initialSyll={initialSyll} deleteSyll={deleteSyll} edit={edit} syllabus={element} key={element._id} />
             ))
           )
         }
