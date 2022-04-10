@@ -3,7 +3,6 @@ import './App.css';
 import Footer from './components/Footer';
 import Home from './components/Home';
 import Login from './components/Login';
-import Register from './components/Register';
 import Users from './components/Users';
 import NavbarExample from './layouts/Navbar';
 import Syllabus from './components/Syllabus';

@@ -26,7 +26,7 @@ const Home = () => {
                 <Col>
                 <img
                     className='img-fluid'
-                    src="\img\task-manager.svg"
+                    src="\img\task-manager(acl_color).svg"
                     alt="gestor-de-tareas"
                 ></img>
                 </Col>
