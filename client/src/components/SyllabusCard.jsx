@@ -171,7 +171,7 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
             </Modal>
 
             {/*Modal de Ver Enlaces */}
-            <Modal show={viewModal} dialogClassName="view-modal">
+            <Modal show={viewModal} dialogClassName="view-modal" scrollable={true}>
             <Modal.Header>
                     <div>
                         <h3>{selectedSyll.name}</h3>
