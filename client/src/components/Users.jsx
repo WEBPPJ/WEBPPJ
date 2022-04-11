@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, Col, Container, Row, Table, Modal } from 'react-bootstrap'
+import { Button, Card, Col, Container, Row, Table, Modal, Form } from 'react-bootstrap'
 import logo from '../assets/acl_logo.webp'
 import { RiAdminFill } from 'react-icons/ri'
 import { IconContext } from 'react-icons/lib'
@@ -13,17 +13,17 @@ const dataUsers = [
     {
         code: 20,
         _id: "04324242F",
-        rol: 0
+        rol: 'user'
     },
     {
         code: 21,
         _id: "04332432242F",
-        rol: 1
+        rol: 'support'
     },
     {
         code: 22,
         _id: "04334124242F",
-        rol: 2
+        rol: 'admin'
     },
 ]
 
@@ -40,12 +40,27 @@ const initialUser = {
 *   2: Usuario Administrador
 */
 
+const roles = [
+    {
+        en: 'user',
+        es: 'Usuario'
+    },
+    {
+        en: 'support',
+        es: 'Soporte'
+    },
+    {
+        en: 'admin',
+        es: 'Administrador'
+    },
+]
+
 const rolIcon = (rol) => {
-    if (rol === 2) {
+    if (rol === 'admin') {
         return <IconContext.Provider value={{ color: "black", size: "2em" }}>
             <RiAdminFill />
         </IconContext.Provider>
-    } else if (rol === 1) {
+    } else if (rol === 'support') {
         return <IconContext.Provider value={{ color: "black", size: "2em" }}>
             <BiSupport />
         </IconContext.Provider>
@@ -81,8 +96,9 @@ const Users = () => {
         const { name, value } = e.target
         setSelectedUser((prevState) => ({
             ...prevState,
-            [name]: +value
+            [name]: value
         }))
+        console.log(selectedUser);
     }
 
     //TODO Cambiar para que funcione con MongoDB
@@ -183,15 +199,20 @@ const Users = () => {
                         <br />
 
                         <label>Rol</label>
-                        <input
+                        {/* <input
                             className="form-control"
-                            type="number"
+                            type="text"
                             name="rol"
-                            max='3'
-                            min='0'
                             value={selectedUser && selectedUser.rol}
                             onChange={handleChange}
-                        />
+                        /> */}
+                        <Form.Select name="rol" value={selectedUser && selectedUser.rol} onChange={handleChange} >
+                            {
+                                roles.map(rol => (
+                                    <option value={rol.en} key={rol.en}>{rol.es}</option>
+                                ))
+                            }
+                        </Form.Select>
                         <br />
                     </div>
                 </Modal.Body>
@@ -262,14 +283,19 @@ const Users = () => {
                         <br />
 
                         <label>Rol</label>
-                        <input
+                        {/* <input
                             className="form-control"
-                            type="number"
+                            type="text"
                             name="rol"
-                            max='3'
-                            min='0'
                             onChange={handleChange}
-                        />
+                        /> */}
+                        <Form.Select name="rol" value={selectedUser && selectedUser.rol} onChange={handleChange} >
+                            {
+                                roles.map(rol => (
+                                    <option value={rol.en} key={rol.en}>{rol.es}</option>
+                                ))
+                            }
+                        </Form.Select>
                         <br />
                     </div>
                 </Modal.Body>
