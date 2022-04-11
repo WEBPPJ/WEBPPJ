@@ -169,3 +169,9 @@ input::-webkit-inner-spin-button {
   !important
 
 }
+
+.table-scrollable {
+  display: block;
+  height: 300px;
+  overflow-y: auto;
+}

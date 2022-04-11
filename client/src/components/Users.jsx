@@ -25,6 +25,86 @@ const dataUsers = [
         _id: "04334124242F",
         rol: 'admin'
     },
+    {
+        code: 22,
+        _id: "04334124242F",
+        rol: 'admin'
+    },
+    {
+        code: 22,
+        _id: "04334124242F",
+        rol: 'admin'
+    },
+    {
+        code: 22,
+        _id: "04334124242F",
+        rol: 'admin'
+    },
+    {
+        code: 22,
+        _id: "04334124242F",
+        rol: 'admin'
+    },
+    {
+        code: 22,
+        _id: "04334124242F",
+        rol: 'admin'
+    },
+    {
+        code: 22,
+        _id: "04334124242F",
+        rol: 'admin'
+    },
+    {
+        code: 22,
+        _id: "04334124242F",
+        rol: 'admin'
+    },
+    {
+        code: 22,
+        _id: "04334124242F",
+        rol: 'admin'
+    },
+    {
+        code: 22,
+        _id: "04334124242F",
+        rol: 'admin'
+    },
+    {
+        code: 22,
+        _id: "04334124242F",
+        rol: 'admin'
+    },
+    {
+        code: 22,
+        _id: "04334124242F",
+        rol: 'admin'
+    },
+    {
+        code: 22,
+        _id: "04334124242F",
+        rol: 'admin'
+    },
+    {
+        code: 22,
+        _id: "04334124242F",
+        rol: 'admin'
+    },
+    {
+        code: 22,
+        _id: "04334124242F",
+        rol: 'admin'
+    },
+    {
+        code: 22,
+        _id: "04334124242F",
+        rol: 'admin'
+    },
+    {
+        code: 22,
+        _id: "04334124242F",
+        rol: 'admin'
+    },
 ]
 
 const initialUser = {
@@ -139,8 +219,8 @@ const Users = () => {
                                 </div>
                             </Row>
                         </Card.Title>
-                        <div className="">
-                            <Table striped bordered hover size='sm'>
+                        <div className="table-scrollable">
+                            <Table striped bordered hover size='sm' className=''>
                                 <thead>
                                     <tr>
                                         <th>Rol</th>
