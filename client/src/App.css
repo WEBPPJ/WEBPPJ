@@ -163,3 +163,9 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+.view-modal {
+  max-width: 50%
+  !important
+
+}
