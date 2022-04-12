@@ -189,7 +189,7 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                         )
                         : (
                             (links).map(link => (
-                                ((link.syllabus === selectedSyll._id) && (link.state === 1 && <div className='p-2 bd-highlight'>
+                                ((link.syllabus === selectedSyll._id) && (link.state === 1 && <div className='p-2 bd-highlight' key={link._id}>
                                 <a className='me-auto p-2 bd-highlight' variant='link' key={link._id} href={link.link} target="_blank" rel="noreferrer">{link.link}</a>
                                 <Button variant='outline-danger' onClick={() => deleteLink(link._id)} className='me-2'><AiFillDelete/></Button>
                                 </div>))
@@ -206,7 +206,7 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                         )
                         : (
                             (links).map(link => (
-                                ((link.syllabus === selectedSyll._id) && (link.state === 0 && <div className='p-2 bd-highlight'>
+                                ((link.syllabus === selectedSyll._id) && (link.state === 0 && <div className='p-2 bd-highlight' key={link._id}>
                                 <a className='me-auto p-2 bd-highlight' variant='link' key={link._id} href={link.link} target="_blank" rel="noreferrer">{link.link}</a>
                                 <Button variant='outline-success' onClick={() => changeState(link._id)} className='me-2'><MdCheck/></Button>
                                 <Button variant='outline-danger' onClick={() => deleteLink(link._id)} className='me-2' ><MdClear/></Button>

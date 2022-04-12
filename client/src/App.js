@@ -10,6 +10,7 @@ import routes from './auth/helpers/routes';
 import PrivateRoute from './routers/PrivateRoute';
 import PublicRoute from './routers/PublicRoute';
 import AuthProvider from './auth/AuthProvider';
+import SyllabusUsers from './components/SyllabusUsers';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               <Route path={routes.users} element={<Users/>}/>
               <Route path={routes.login} element={<Login/>}/>
               <Route path={routes.plan} element={<Syllabus/>}/>
+              <Route path={routes.planes} element={<SyllabusUsers/>}/>
               <Route path="*" element={ <Navigate replace to="/"/> } />
           </Route>
         </Routes>
