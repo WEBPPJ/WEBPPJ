@@ -13,17 +13,20 @@ const dataUsers = [
     {
         code: 20,
         _id: "04324242F",
-        rol: 'user'
+        rol: 'user',
+        password: 'asdadad'
     },
     {
         code: 21,
         _id: "04332432242F",
-        rol: 'support'
+        rol: 'support',
+        password: 'asdadad'
     },
     {
         code: 22,
         _id: "04334124242F",
-        rol: 'admin'
+        rol: 'admin',
+        password: 'asdadad'
     },
 ]
 
@@ -278,6 +281,15 @@ const Users = () => {
                             name="code"
                             min='1'
                             value={selectedUser && selectedUser.code}
+                            onChange={handleChange}
+                        />
+                        <br />
+                        <label>Contraseña</label>
+                        <input
+                            className="form-control"
+                            type="password"
+                            name="password"
+                            value={selectedUser && selectedUser.password}
                             onChange={handleChange}
                         />
                         <br />
