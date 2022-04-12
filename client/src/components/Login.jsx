@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import video from '../assets/video.mp4'
+import axios from "axios"
+import { Alert, Toast } from "react-bootstrap";
+
 
 
 const Login = () => {
 
   const [inputs, setInputs] = useState({ code: "", password: "" });
-  const [mensaje, setMensaje] = useState();
+  const [message, setMessage] = useState();
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -16,35 +19,36 @@ const Login = () => {
   };
 
   //TODO: Crear codigo para enviar la info del formulario al server, ej (En este caso, instalar axios):
-  // const onSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (correo !== "" && contraseña !== "") {
-  //     const Usuario = {
-  //       correo,
-  //       contraseña,
-  //     };
-  //     setLoading(true);
-  //     await axios
-  //       .post("http://localhost:4000/login", Usuario)
-  //       .then((res) => {
-  //         const { data } = res;
-  //         setMensaje(data.mensaje);
-  //         setTimeout(() => {
-  //           setMensaje("");
-  //           navigate(`/welcome/${data?.usuario.id}`);
-  //         }, 1500);
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //         setMensaje("Correo u contraseña incorrecta");
-  //         setTimeout(() => {
-  //           setMensaje("");
-  //         }, 1500);
-  //       });
-  //     setInputs({ correo: "", contraseña: "" });
-  //     setLoading(false);
-  //   }
-  // };
+   const onSubmit = async (e) => {
+     e.preventDefault();
+    if (code !== "" && password !== "") {
+      const user = {
+        code,
+        password,
+       };
+       setLoading(true);
+       await axios
+         .post("http://localhost:3001/api/users/login", user)
+         .then((res) => {
+           const { data } = res;
+           setMessage(data.msg);
+           setTimeout(() => {
+             console.log(code)
+             setMessage("");
+             navigate(`/plan`);
+           }, 1500);
+         })
+         .catch((error) => {
+           console.error(error);
+           setMessage(error.response.data.msg);
+           setTimeout(() => {
+             setMessage("");
+           }, 1500);
+         });
+       setInputs({code: "", password: "" });
+       setLoading(false);
+     }
+   };
 
   const { code, password } = inputs;
 
@@ -91,12 +95,21 @@ const Login = () => {
               />
             </div>
           </div>
-          <button type="submit">
+          <button type="submit"onClick={(e)=>onSubmit(e)}>
             {loading ? "Cargando..." : "Iniciar Sesión"}
           </button>
         </form>
+        {
+          message && <div className="pt-2">
+          <Alert variant="danger">
+            <p>
+              {message}
+            </p>
+          </Alert>
+        </div>
+        }
       </div>
-        {mensaje && <div className="toast">{mensaje}</div>}
+       
     </div>
   )
 }

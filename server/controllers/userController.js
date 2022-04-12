@@ -31,7 +31,7 @@ const authenticate =async (req, res)=>{
         const error= new Error('El usuario no existe')
         return res.status(404).json({msg: error.message})
     }
-    //si tiene cona cuenta activada
+    //si tiene una cuenta activada
     if (!user.active){
         const error= new Error('tu cuenta esta desactivada')
         return res.status(404).json({msg: error.message})
