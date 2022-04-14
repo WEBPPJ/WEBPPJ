@@ -51,6 +51,7 @@ const SyllabusUsers = () => {
     const [syllabus, setSyllabus] = useState(syllabusData)
     const [links, setLinks] = useState(linksData)
     const [viewModal, setViewModal] = useState(false)
+    const [suggestModal, setSuggestModal] = useState(false)
     const [selectedSyll, setSelectedSyll] = useState({})
 
     return (
@@ -84,6 +85,7 @@ const SyllabusUsers = () => {
             </Row>
 
             {/*Modal de Ver Enlaces */}
+            {/*TODO: Que se agrege el enlace */}
             <Modal show={viewModal} dialogClassName="view-modal" scrollable={true}>
             <Modal.Header>
                     <div>
@@ -95,7 +97,11 @@ const SyllabusUsers = () => {
                     <h5 className="">
                         Enlaces Disponibles
                     </h5>
-                    <Button variant='info'>¿Tienes alguna sugerencia? Añadela <FcIdea/></Button>
+                    <Button onClick={() => {
+                        setSuggestModal(true)
+                        setViewModal(false)
+                    }} 
+                    variant='info'>¿Tienes alguna sugerencia? Añadela <FcIdea/></Button>
                     </div>
                     <div className="d-flex align-items-start flex-column bd-highlight mb-3">
                     {
@@ -117,6 +123,42 @@ const SyllabusUsers = () => {
                     <Button
                         variant="outline-secondary"
                         onClick={() => setViewModal(false)}
+                    >
+                        Cerrar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            {/*Modal de Sugerencia */}
+            <Modal show={suggestModal}>
+            <Modal.Header>
+                    <div>
+                        <h3>Sugerencia para {selectedSyll.name}</h3>
+                    </div>
+                </Modal.Header>
+                <Modal.Body>
+                <div className="form-group">
+                        <label>Enlace</label>
+                        <input
+                            className="form-control"
+                            type="url"
+                            name="link"
+                        />
+                        <br />
+                </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button
+                        variant="success"
+                    >
+                        Sugerir
+                    </Button>
+                    <Button
+                        variant="outline-secondary"
+                        onClick={() => {
+                            setSuggestModal(false)
+                            setViewModal(true)
+                        }}
                     >
                         Cerrar
                     </Button>
