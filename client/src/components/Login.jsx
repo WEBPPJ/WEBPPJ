@@ -33,7 +33,7 @@ const Login = () => {
            const { data } = res;
            setMessage(data.msg);
            setTimeout(() => {
-             console.log(code)
+             console.log(user)
              setMessage("");
              navigate(`/plan`);
            }, 1500);

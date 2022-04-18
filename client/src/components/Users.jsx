@@ -7,6 +7,7 @@ import { BiSupport } from 'react-icons/bi'
 import { FaUserAlt } from 'react-icons/fa'
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import { MdAdd } from 'react-icons/md'
+import axios from 'axios'
 
 //* Usuarios de Prueba
 const dataUsers = [
@@ -33,7 +34,7 @@ const dataUsers = [
 const initialUser = {
     _id: 0,
     code: 0,
-    rol: 0
+    rol: "user"
 }
 
 /* 
@@ -76,7 +77,7 @@ const rolIcon = (rol) => {
 
 const Users = () => {
 
-    const [users, setUsers] = useState(dataUsers)
+    const [users, setUsers] = useState([])
     const [editModal, setEditModal] = useState(false)
     const [deleteModal, setDeleteModal] = useState(false)
     const [addModal, setAddModal] = useState(false)
@@ -103,6 +104,106 @@ const Users = () => {
         }))
         console.log(selectedUser);
     }
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+       if (selectedUser.code!==0) {
+           const code=selectedUser.code
+           const password=selectedUser.password
+           const role=selectedUser.rol
+         const user = {
+           code,
+           password,
+           role
+        }
+          await axios
+            .post("http://localhost:3001/api/users/", user)
+            .then((res) => {
+              const { data } = res;
+              setTimeout(() => {
+                console.log(data)
+                setAddModal(false)
+                
+               
+              }, 1500);
+            })
+            .catch((error) => {
+              console.error(error);
+              setTimeout(() => {
+                
+              }, 1500);
+            });
+          
+        }
+      };
+      const onUpdate = async (e) => {
+        e.preventDefault();
+       if (selectedUser.code!==0) {
+           const code=selectedUser.code
+           const password=selectedUser.password
+           const role=selectedUser.rol
+         const user = {
+           code,
+           password,
+           role
+        }
+          await axios
+            .post("http://localhost:3001/api/users/update", user)
+            .then((res) => {
+              const { data } = res;
+              setTimeout(() => {
+                console.log(data)
+                setEditModal(false)
+                
+               
+              }, 1500);
+            })
+            .catch((error) => {
+              console.error(error);
+              setTimeout(() => {
+                
+              }, 1500);
+            });
+          
+        }
+      };
+      const loadUsers = () => {
+
+        fetch('http://localhost:3001/api/users/all')
+            .then(res => res.json())
+            .then(allUsers => setUsers(allUsers))
+    }
+    const Active = async (e) => {
+        e.preventDefault();
+       if (selectedUser.code!==0) {
+           const code=selectedUser.code
+           const active=false
+         const user = {
+           code,
+           active
+        }
+          await axios
+            .post("http://localhost:3001/api/users/activate", user)
+            .then((res) => {
+              const { data } = res;
+              setTimeout(() => {
+                console.log(data)
+                setDeleteModal(false)
+                
+               
+              }, 1500);
+            })
+            .catch((error) => {
+              console.error(error);
+              setTimeout(() => {
+                
+              }, 1500);
+            });
+          
+        }
+      };
+      
+    loadUsers()
 
     //TODO Cambiar para que funcione con MongoDB
     const edit = () => {
@@ -155,7 +256,7 @@ const Users = () => {
                                     {
                                         users.map(user => (
                                             <tr key={user._id}>
-                                                <td>{rolIcon(user.rol)}</td>
+                                                <td>{rolIcon(user.role)}</td>
                                                 <td>{user.code}</td>
                                                 <td>
                                                     <Button className='mx-2' variant="primary" onClick={() => selectUser(user, 'Edit')}><AiFillEdit /></Button>
@@ -209,7 +310,7 @@ const Users = () => {
                             value={selectedUser && selectedUser.rol}
                             onChange={handleChange}
                         /> */}
-                        <Form.Select name="rol" value={selectedUser && selectedUser.rol} onChange={handleChange} >
+                        <Form.Select name="rol" value={selectedUser && selectedUser.role} onChange={handleChange} >
                             {
                                 roles.map(rol => (
                                     <option value={rol.en} key={rol.en}>{rol.es}</option>
@@ -220,9 +321,9 @@ const Users = () => {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button
+                    <Button type='update'
                         variant='primary'
-                        onClick={() => edit()}
+                        onClick={(e)=>onUpdate(e)}
                     >
                         Actualizar
                     </Button>
@@ -238,12 +339,12 @@ const Users = () => {
             {/*Modal de Eliminar */}
             <Modal show={deleteModal}>
                 <Modal.Body>
-                    Estás Seguro que deseas al usuario con código: {selectedUser && selectedUser.code}
+                    Estás seguro que deseas al usuario con código: {selectedUser && selectedUser.code}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
                         variant="danger"
-                        onClick={() => softDelete()}
+                        onClick={(e)=>Active(e)}
                     >
                         Sí
                     </Button>
@@ -265,14 +366,7 @@ const Users = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="form-group">
-                        <label>ID</label>
-                        <input
-                            className="form-control"
-                            type="text"
-                            name="_id"
-                            onChange={handleChange}
-                        />
-                        <br />
+                        
 
                         <label>Código</label>
                         <input
@@ -312,9 +406,9 @@ const Users = () => {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button
+                <Button type='submit'
                         variant='primary'
-                        onClick={() => add()}
+                        onClick={(e)=>onSubmit(e)}
                     >
                         Agregar
                     </Button>
