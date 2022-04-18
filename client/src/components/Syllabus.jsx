@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Alert, Button, Container, Modal, Row } from 'react-bootstrap'
+import { Alert, Button, Container, Modal, Row, Toast, ToastContainer } from 'react-bootstrap'
+import { AiTwotoneQuestionCircle } from 'react-icons/ai'
 import SyllabusCard from './SyllabusCard'
 
 const data = [
@@ -23,6 +24,8 @@ const Syllabus = () => {
   const [syllabus, setSyllabus] = useState(data)
   const [newSyllabus, setNewSyllabus] = useState(initialSyll)
   const [addModal, setAddModal] = useState(false)
+  const [toast, setToast] = useState(false)
+  const [msg, setMsg] = useState('')
 
   //TODO: Arreglar para que funcione con MongoDB
 
@@ -45,14 +48,16 @@ const Syllabus = () => {
 
   const deleteSyll = (id) => {
     setSyllabus(syllabus.filter(syll => syll._id !== id))
+    //! Si se realiza esta comparacion se muestra el toast, demostrando que puede que la falla este en el filter, por lo tanto, al agregar la bd, puede que funcione correctamente
+    // setSyllabus(syllabus.filter(syll => syll._id === id))
     console.log(id);
     console.log(syllabus);
   }
-  
+
   const edit = (selectedSyll) => {
     var newSylls = syllabus
     newSylls.map(syll => {
-      if(syll._id === selectedSyll._id) {
+      if (syll._id === selectedSyll._id) {
         syll.name = selectedSyll.name
       }
     })
@@ -108,7 +113,11 @@ const Syllabus = () => {
         <Modal.Footer>
           <Button
             variant='primary'
-            onClick={() => add()}
+            onClick={() => {
+              add()
+              setMsg(`Plan ${newSyllabus.name} creado correctamente`)
+              setToast(true)
+            }}
           >
             Agregar
           </Button>
@@ -120,6 +129,16 @@ const Syllabus = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {/* Toast (Alerta) */}
+      <ToastContainer className='p-3' position='top-end'>
+        <Toast onClose={() => setToast(false)} show={toast} delay={3000} autohide>
+          <Toast.Header>
+            <strong className="me-auto">WEBPPJ</strong>
+          </Toast.Header>
+          <Toast.Body>{msg}</Toast.Body>
+        </Toast>
+      </ToastContainer>
 
     </Container>
   )

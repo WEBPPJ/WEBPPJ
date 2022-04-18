@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, Col, Container, Row, Table, Modal, Form } from 'react-bootstrap'
+import { Button, Card, Col, Container, Row, Table, Modal, Form, Toast, ToastContainer } from 'react-bootstrap'
 import logo from '../assets/acl_logo.webp'
 import { RiAdminFill } from 'react-icons/ri'
 import { IconContext } from 'react-icons/lib'
@@ -34,7 +34,11 @@ const dataUsers = [
 const initialUser = {
     _id: 0,
     code: 0,
+<<<<<<< HEAD
     rol: "user"
+=======
+    rol: 'user'
+>>>>>>> 81ca31a56b7394ffcdb18444af5479cc1aaca028
 }
 
 /* 
@@ -81,6 +85,8 @@ const Users = () => {
     const [editModal, setEditModal] = useState(false)
     const [deleteModal, setDeleteModal] = useState(false)
     const [addModal, setAddModal] = useState(false)
+    const [toast, setToast] = useState(false)
+    const [msg, setMsg] = useState('')
 
     const [selectedUser, setSelectedUser] = useState(initialUser)
 
@@ -88,7 +94,7 @@ const Users = () => {
         setSelectedUser(user);
         (action === 'Edit') ? setEditModal(true) : setDeleteModal(true)
     }
-    
+
     const openAddModal = () => {
         setSelectedUser(initialUser)
         setAddModal(true)
@@ -415,11 +421,21 @@ const Users = () => {
                     <Button
                         variant='outline-secondary'
                         onClick={() => setAddModal(false)}
-                    > 
+                    >
                         Cancelar
                     </Button>
                 </Modal.Footer>
             </Modal>
+            {/* Toast (Alerta) */}
+            <ToastContainer className='p-3' position='top-end'>
+                <Toast onClose={() => setToast(false)} show={toast} delay={3000} autohide>
+                    <Toast.Header>
+                        <strong className="me-auto">WEBPPJ</strong>
+                    </Toast.Header>
+                    <Toast.Body>{msg}</Toast.Body>
+                </Toast>
+            </ToastContainer>
+
         </Container>
     )
 }
