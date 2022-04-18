@@ -112,7 +112,7 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                             deleteSyll(selectedSyll._id)
                             setDeleteModal(false)
                             //! El toast no se muestra por la funcion de eliminar, ya que si se comenta, se puede ver que se genera bien, estoy trabajando en ello
-                            setMsg(`Enlace ${selectedSyll.name} eliminado correctamente`)
+                            setMsg(`Plan ${selectedSyll.name} eliminado correctamente`)
                             setToast(true)
                         }}
                     >

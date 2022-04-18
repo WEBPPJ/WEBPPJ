@@ -48,6 +48,8 @@ const Syllabus = () => {
 
   const deleteSyll = (id) => {
     setSyllabus(syllabus.filter(syll => syll._id !== id))
+    //! Si se realiza esta comparacion se muestra el toast, demostrando que puede que la falla este en el filter, por lo tanto, al agregar la bd, puede que funcione correctamente
+    // setSyllabus(syllabus.filter(syll => syll._id === id))
     console.log(id);
     console.log(syllabus);
   }
