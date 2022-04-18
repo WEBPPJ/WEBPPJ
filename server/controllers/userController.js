@@ -48,26 +48,50 @@ const authenticate =async (req, res)=>{
     }
 
 }
-
-const confirm = async (req, res)=>{
-    const {token}=req.params;
-    const confirmUser= await User.findOne({token})
-    if(!confirmUser){
-        const error= new Error("Token invalido")
-        return res.status(403).json({msg: error.message})
-
-    }
-
-    try {
+const update =async (req, res)=>{
+    
+    const {_id, code, role, password} =req.body;
+    //buscar usuario
+    const user = await User.findOne({code});
+    if (!user){
+        const error= new Error('El usuario no existe')
+        return res.status(404).json({msg: error.message})
+    }else{
+        await User.findOneAndUpdate({code}, {role, password})
+        res.json(
+            "Datos del usuario actualizados"
         
-    } catch (error) {
-        console.log(error)
+        )
+    }
+    
+
+}
+const activate =async (req, res)=>{
+    
+    const { code,  active} =req.body;
+    //buscar usuario
+    const user = await User.findOne({code});
+    if (!user){
+        const error= new Error('El usuario no existe')
+        return res.status(404).json({msg: error.message})
+    }else{
+        await User.findOneAndUpdate({code}, { active})
+        res.json(
+            "el estado ha sido cambiado a '"+ active+"'"
+        
+        )
     }
 }
+const all =async (req,res)=>{
+    User
+        .find()
+        .then(allUsers => res.json(allUsers))
+}
+
 
 const profile =async (req, res)=>{
     const {user}= req
     res.json(user)
 }
 
-module.exports= {register, authenticate, confirm, profile};
+module.exports= {register, authenticate, update, activate, all, profile};

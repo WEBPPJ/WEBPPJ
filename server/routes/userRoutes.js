@@ -6,7 +6,9 @@ const checkAuth=require('../middleware/checkAuth')
 //creación, autenticación y confirmacion de usuarios
 router.post('/',user.register)
 router.post('/login', user.authenticate)
-router.get('/confirm/:token', user.confirm)
+router.post('/update', user.update)
+router.post('/activate', user.activate)
+router.get('/all', user.all)
 
 router.get('/profile', checkAuth, user.profile)
 
