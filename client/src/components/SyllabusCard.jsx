@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Alert, Button, Card, Col, Modal } from 'react-bootstrap'
+import { Alert, Button, Card, Col, Modal, Toast, ToastContainer } from 'react-bootstrap'
 import { MdModeEdit, MdClear, MdCheck } from 'react-icons/md'
-import { AiFillEye, AiFillDelete } from 'react-icons/ai'
+import {AiFillDelete } from 'react-icons/ai'
 import 'animate.css';
 
 const data = [
@@ -45,6 +45,8 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
     const [editModal, setEditModal] = useState(false)
     const [viewModal, setViewModal] = useState(false)
     const [selectedSyll, setSelectedSyll] = useState(syllabus)
+    const [toast, setToast] = useState(false)
+    const [msg, setMsg] = useState('')
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -58,7 +60,7 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
         setLinks(links.filter(link => link._id !== id))
     }
 
-    //! Lo actualiza correctamente, pero no se actualizan los links hasta cerrar el modal
+    //! Lo actualiza correctamente, pero no se actualizan (visualmente) los links hasta cerrar el modal
     const changeState = (id) => {
         var newLinks = links
         newLinks.map(link => {
@@ -77,16 +79,17 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                     <div className="d-flex bd-highlight">
                         <Card.Title className='me-auto p-2 bd-highlight'>{selectedSyll.name}</Card.Title>
                         <Button onClick={() => {
-                            setViewModal(true)
-                        }} 
-                        variant='success' className='me-2 cardButton'><AiFillEye /></Button>
-                        <Button onClick={() => {
                             setEditModal(true)
+                        }} 
+                        className='me-2 cardButton'><MdModeEdit /></Button>
+                        <Button onClick={() => {
+                            setDeleteModal(true)
                         }}
-                        ><MdModeEdit /></Button>
+                        variant='danger'
+                        ><AiFillDelete /></Button>
                     </div>
                     <div className="pt-2">
-                        <Button className='w-100' variant='danger' onClick={() => setDeleteModal(true)}> Eliminar </Button>
+                        <Button className='w-100' variant='secondary' onClick={() => setViewModal(true)}> Ver Enlaces </Button>
                     </div>
                 </Card.Body>
                 {/* Forma 2 */}
@@ -108,6 +111,9 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                         onClick={() => {
                             deleteSyll(selectedSyll._id)
                             setDeleteModal(false)
+                            //! El toast no se muestra por la funcion de eliminar, ya que si se comenta, se puede ver que se genera bien, estoy trabajando en ello
+                            setMsg(`Enlace ${selectedSyll.name} eliminado correctamente`)
+                            setToast(true)
                         }}
                     >
                         Sí
@@ -157,6 +163,8 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                         onClick={() => {
                             edit(selectedSyll)
                             setEditModal(false)
+                            setMsg(`Plan ${selectedSyll.name} editado correctamente`)
+                            setToast(true)
                         }}
                     >
                         Agregar
@@ -191,7 +199,11 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                             (links).map(link => (
                                 ((link.syllabus === selectedSyll._id) && (link.state === 1 && <div className='p-2 bd-highlight' key={link._id}>
                                 <a className='me-auto p-2 bd-highlight' variant='link' key={link._id} href={link.link} target="_blank" rel="noreferrer">{link.link}</a>
-                                <Button variant='outline-danger' onClick={() => deleteLink(link._id)} className='me-2'><AiFillDelete/></Button>
+                                <Button variant='outline-danger' onClick={() => {
+                                    deleteLink(link._id)
+                                    setMsg(`Enlace ${link.link} eliminado correctamente`)
+                                    setToast(true)
+                                }} className='me-2'><AiFillDelete/></Button>
                                 </div>))
                             ))
                         )
@@ -208,8 +220,16 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                             (links).map(link => (
                                 ((link.syllabus === selectedSyll._id) && (link.state === 0 && <div className='p-2 bd-highlight' key={link._id}>
                                 <a className='me-auto p-2 bd-highlight' variant='link' key={link._id} href={link.link} target="_blank" rel="noreferrer">{link.link}</a>
-                                <Button variant='outline-success' onClick={() => changeState(link._id)} className='me-2'><MdCheck/></Button>
-                                <Button variant='outline-danger' onClick={() => deleteLink(link._id)} className='me-2' ><MdClear/></Button>
+                                <Button variant='outline-success' onClick={() => {
+                                    changeState(link._id)
+                                    setMsg(`Enlace ${link.link} aceptado correctamente`)
+                                    setToast(true)
+                                }} className='me-2'><MdCheck/></Button>
+                                <Button variant='outline-danger' onClick={() => {
+                                    deleteLink(link._id)
+                                    setMsg(`Enlace ${link.link} denegado correctamente`)
+                                    setToast(true)
+                                }} className='me-2' ><MdClear/></Button>
                                 </div>))
                             ))
                         )
@@ -225,6 +245,17 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+            {/* Toast (Alerta) */}
+      <ToastContainer className='p-3' position='top-end'>
+        <Toast onClose={() => setToast(false)} show={toast} delay={3000} autohide>
+          <Toast.Header>
+            <strong className="me-auto">WEBPPJ</strong>
+          </Toast.Header>
+          <Toast.Body>{msg}</Toast.Body>
+        </Toast>
+      </ToastContainer>
+
         </Col>
     )
 }

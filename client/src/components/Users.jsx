@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, Col, Container, Row, Table, Modal, Form } from 'react-bootstrap'
+import { Button, Card, Col, Container, Row, Table, Modal, Form, Toast, ToastContainer } from 'react-bootstrap'
 import logo from '../assets/acl_logo.webp'
 import { RiAdminFill } from 'react-icons/ri'
 import { IconContext } from 'react-icons/lib'
@@ -33,7 +33,7 @@ const dataUsers = [
 const initialUser = {
     _id: 0,
     code: 0,
-    rol: 0
+    rol: 'user'
 }
 
 /* 
@@ -80,6 +80,8 @@ const Users = () => {
     const [editModal, setEditModal] = useState(false)
     const [deleteModal, setDeleteModal] = useState(false)
     const [addModal, setAddModal] = useState(false)
+    const [toast, setToast] = useState(false)
+    const [msg, setMsg] = useState('')
 
     const [selectedUser, setSelectedUser] = useState(initialUser)
 
@@ -87,7 +89,7 @@ const Users = () => {
         setSelectedUser(user);
         (action === 'Edit') ? setEditModal(true) : setDeleteModal(true)
     }
-    
+
     const openAddModal = () => {
         setSelectedUser(initialUser)
         setAddModal(true)
@@ -222,7 +224,11 @@ const Users = () => {
                 <Modal.Footer>
                     <Button
                         variant='primary'
-                        onClick={() => edit()}
+                        onClick={() => {
+                            edit()
+                            setMsg(`Usuario ${selectedUser.code} editado correctamente`)
+                            setToast(true)
+                        }}
                     >
                         Actualizar
                     </Button>
@@ -243,7 +249,11 @@ const Users = () => {
                 <Modal.Footer>
                     <Button
                         variant="danger"
-                        onClick={() => softDelete()}
+                        onClick={() => {
+                            softDelete()
+                            setMsg(`Usuario ${selectedUser.code} eliminado correctamente`)
+                            setToast(true)
+                        }}
                     >
                         Sí
                     </Button>
@@ -314,18 +324,33 @@ const Users = () => {
                 <Modal.Footer>
                     <Button
                         variant='primary'
-                        onClick={() => add()}
+                        onClick={() => {
+                            add()
+                            setMsg(`Usuario ${selectedUser.code} creado correctamente`)
+                            console.log(selectedUser)
+                            setToast(true)
+                        }}
                     >
                         Agregar
                     </Button>
                     <Button
                         variant='outline-secondary'
                         onClick={() => setAddModal(false)}
-                    > 
+                    >
                         Cancelar
                     </Button>
                 </Modal.Footer>
             </Modal>
+            {/* Toast (Alerta) */}
+            <ToastContainer className='p-3' position='top-end'>
+                <Toast onClose={() => setToast(false)} show={toast} delay={3000} autohide>
+                    <Toast.Header>
+                        <strong className="me-auto">WEBPPJ</strong>
+                    </Toast.Header>
+                    <Toast.Body>{msg}</Toast.Body>
+                </Toast>
+            </ToastContainer>
+
         </Container>
     )
 }
