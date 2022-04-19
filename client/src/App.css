@@ -198,15 +198,21 @@ input::-webkit-inner-spin-button {
   display: block;
   height: 300px;
   overflow-y: auto;
+  border-color:rgba(255,255,255,0.7) !important;
 }
 
 .table-scrollable thead tr  {
   border-style: unset;
 }
+.table-scrollable tbody td,
+.table-scrollable tbody tr
+{
+  border-style: none;
+}
 
-/* .table-scrollable thead tr th  {
+.table-scrollable thead tr th  {
   border-width: 0px;
-} */
+}
 
 body {
   background-color: #E02957;
