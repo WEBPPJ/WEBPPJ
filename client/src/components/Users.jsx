@@ -34,11 +34,7 @@ const dataUsers = [
 const initialUser = {
     _id: 0,
     code: 0,
-<<<<<<< HEAD
     rol: "user"
-=======
-    rol: 'user'
->>>>>>> 81ca31a56b7394ffcdb18444af5479cc1aaca028
 }
 
 /* 

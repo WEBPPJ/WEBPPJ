@@ -17,33 +17,38 @@ const linksData = [
         _id: 32424,
         syllabus: 123131223,
         link: 'http://localhost:3000/users/login',
-        state: 0
+        state: 0,
+        title: 'Titulo'
     },
     {
         _id: 132424,
         syllabus: 123131223,
         link: 'http://localhost:3000/syllabus',
-        state: 1
+        state: 1,
+        title: 'Titulo'
     },
     {
         _id: 332424,
         syllabus: 123133421223,
         link: 'http://localhost:3000/users',
-        state: 0
+        state: 0,
+        title: 'Titulo'
     },
     {
         _id: 3243124,
         syllabus: 123133421223,
         link: 'https://react-bootstrap.github.io/components/alerts',
-        state: 1
+        state: 1,
+        title: 'Titulo'
     },
     {
         _id: 532424,
         syllabus: 123131223,
         link: 'http://localhost:3000/users/login',
-        state: 1
+        state: 1,
+        title: 'Titulo'
     },
-    
+
 ]
 
 const SyllabusUsers = () => {
@@ -55,7 +60,7 @@ const SyllabusUsers = () => {
     const [selectedSyll, setSelectedSyll] = useState({})
 
     return (
-        <Container className='p-4'>
+        <Container className='p-4 conta'>
             <Row>
                 {
                     syllabus.length === 0
@@ -112,7 +117,7 @@ const SyllabusUsers = () => {
                         : (
                             (links).map(link => (
                                 ((link.syllabus === selectedSyll._id) && (link.state === 1 && <div className='p-2 bd-highlight'>
-                                <a className='me-auto p-2 bd-highlight' variant='link' key={link._id} href={link.link} target="_blank" rel="noreferrer">{link.link}</a>
+                                <a className='me-auto p-2 bd-highlight' variant='link' key={link._id} href={link.link} target="_blank" rel="noreferrer">{link.title}</a>
                                 </div>))
                             ))
                         )
