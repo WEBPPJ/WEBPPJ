@@ -328,3 +328,8 @@ body {
 .swiper-slide .card .btn {
   background-color: var(--grey);
 }
+
+.swiper-slide .card img {
+  width: 170px;
+  height: auto;
+}

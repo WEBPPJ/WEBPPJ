@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper'
 import "swiper/css";
 import "swiper/css/pagination";
+import 'animate.css';
 
 const syllabusData = [
     {
@@ -84,19 +85,24 @@ const SyllabusUsers = () => {
                     syllabus.length > 0 && (
                         syllabus.map((element) => (
                             <SwiperSlide key={element._id}>
-                                <Card className='userCard text-white position-relative'>
+                                <Card className='userCard text-white position-relative animate__animated animate__zoomIn'>
                                     <Card.Body>
                                         <div className="d-flex bd-highlight">
                                             <Card.Title className='me-auto p-2 bd-highlight'>{element.name}</Card.Title>
                                             <Card.Subtitle>Plan de Estudio ACL</Card.Subtitle>
                                         </div>
-                                    </Card.Body>
                                         <div className="pb-4 position-absolute bottom-0 start-50 translate-middle-x">
                                             <Button onClick={() => {
                                                 setSelectedSyll(element)
                                                 setViewModal(true)
                                             }} className='w-100' variant='secondary'>Ver Enlaces</Button>
                                         </div>
+                                        <img
+                                            className='img-fluid position-absolute top-50 start-50 translate-middle'
+                                            src="\img\male_avatar.svg"
+                                            alt="gestor-de-tareas"
+                                        ></img>
+                                    </Card.Body>
                                 </Card>
                             </SwiperSlide>
                         ))
