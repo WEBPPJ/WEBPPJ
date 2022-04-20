@@ -17,7 +17,7 @@ const Home = () => {
             <Row className='mt-5'>
                 <Col > 
                 <h1 style={{color:'#E02957'}}>Bienvenido WEBPPJ</h1>
-                <h3 style={{color:'white'}}>Aqui puedes acceder a enlaces correspondientes a los distintos programmas de estudios del programa profecionales jovenes de ACL</h3>
+                <h3 style={{color:'white'}}>Aqui puedes acceder a enlaces correspondientes a los distintos programas de estudios del Programa Profesionales Jovenes de ACL</h3>
                 <p style={{color:'white'}}>Puedes ingresar a enlaces y sugerir los que creas utiles para cada programa</p>
                 <div>
                     <Link to={'/users/login'} style={{color:'#E02957'}}>Ingresa aquí</Link> 

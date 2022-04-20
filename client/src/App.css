@@ -7,8 +7,14 @@
   --light-grey: #C6CFD2;
 }
 
+#root {
+  position: relative;
+    min-height: 100vh;
+}
+
 .App {
   text-align: center;
+  padding-bottom: 2.5rem;
 }
 
 .logo {
@@ -140,13 +146,21 @@ input:focus {
   outline-color: var(--white);
 }
 
-footer {
+/* footer {
   background-color: var(--dark);
   position: fixed;
   left: 0;
   bottom: 0;
   right: 0;
   width: 100%;
+} */
+
+footer {
+  background-color: var(--dark);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;
 }
 
 .svg {
@@ -155,6 +169,16 @@ footer {
   height: 25px;
   text-align: center;
   border-radius: 5px;
+}
+
+.svg {
+  margin: 0 1rem;
+  transition: transform 250ms;
+  display: inline-block;
+}
+
+.svg:hover {
+  transform: translateY(-2px);
 }
 
 /* Para ocultar los controles del input númerico */
@@ -174,11 +198,88 @@ input::-webkit-inner-spin-button {
   display: block;
   height: 300px;
   overflow-y: auto;
+  border-color:rgba(255,255,255,0.7) !important;
 }
 
-.syllCard {
-  background: linear-gradient(130deg, rgba(224,41,87,0.8) 0%, rgba(31,41,55,0.8) 50%);
+.table-scrollable thead tr  {
+  border-style: unset;
 }
-.syllCard .card-body .card-title {
-  color: var(--white)
+.table-scrollable tbody td,
+.table-scrollable tbody tr
+{
+  border-style: none;
+}
+
+.table-scrollable thead tr th  {
+  border-width: 0px;
+}
+
+body {
+  background-color: #E02957;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 800 400'%3E%3Cdefs%3E%3CradialGradient id='a' cx='396' cy='281' r='514' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%231F2937'/%3E%3Cstop offset='1' stop-color='%23E02957'/%3E%3C/radialGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='400' y1='148' x2='400' y2='333'%3E%3Cstop offset='0' stop-color='%23E02957' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23E02957' stop-opacity='0.5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23a)' width='800' height='400'/%3E%3Cg fill-opacity='0.4'%3E%3Ccircle fill='url(%23b)' cx='267.5' cy='61' r='300'/%3E%3Ccircle fill='url(%23b)' cx='532.5' cy='61' r='300'/%3E%3Ccircle fill='url(%23b)' cx='400' cy='30' r='300'/%3E%3C/g%3E%3C/svg%3E");
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.card {
+  background-color:rgba(255,255,255,0.7) !important;
+}
+
+
+.nav-links{
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 20px 15px;
+  border-radius: 0px 0px 12px 12px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+.nav-links li{
+  list-style: none;
+  margin: 0 12px;
+}
+.nav-links a{
+  position: relative;
+  color: #333;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 6px 0;
+  text-decoration: none;
+}
+.nav-links a:before{
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--red);
+  border-radius: 12px;
+  transition: all 0.4s ease;
+}
+.nav-links a:hover:before{
+  width: 100%;
+}
+.nav-links li.center a:before{
+  left: 50%;
+  transform: translateX(-50%);
+}
+.nav-links li.upward a:before{
+  width: 100%;
+  bottom: -5px;
+  opacity: 0;
+}
+.nav-links li.upward a:hover:before{
+  bottom: 0px;
+  opacity: 1;
+}
+.nav-links li.forward a:before{
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s ease;
+}
+.nav-links li.forward a:hover:before{
+  transform: scaleX(1);
+  transform-origin: left;
 }

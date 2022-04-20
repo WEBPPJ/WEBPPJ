@@ -1,41 +1,47 @@
 import React, { useState } from 'react'
-import { Alert, Button, Card, Col, Modal, Toast, ToastContainer } from 'react-bootstrap'
-import { MdModeEdit, MdClear, MdCheck } from 'react-icons/md'
-import {AiFillDelete } from 'react-icons/ai'
+import { Button, Card, Col, Modal, Table, Toast, ToastContainer } from 'react-bootstrap'
+import { MdModeEdit, MdClear, MdCheck, MdPending } from 'react-icons/md'
+import { AiFillDelete, AiOutlineCheckCircle } from 'react-icons/ai'
 import 'animate.css';
+import { IconContext } from 'react-icons/lib'
 
 const data = [
     {
         _id: 32424,
         syllabus: 123131223,
         link: 'http://localhost:3000/users/login',
-        state: 0
+        state: 0,
+        title: 'Titulo'
     },
     {
         _id: 132424,
         syllabus: 123131223,
         link: 'http://localhost:3000/syllabus',
-        state: 1
+        state: 1,
+        title: 'Titulo'
     },
     {
         _id: 332424,
         syllabus: 123133421223,
         link: 'http://localhost:3000/users',
-        state: 0
+        state: 0,
+        title: 'Titulo'
     },
     {
         _id: 3243124,
         syllabus: 123133421223,
         link: 'https://react-bootstrap.github.io/components/alerts',
-        state: 1
+        state: 1,
+        title: 'Titulo'
     },
     {
         _id: 532424,
         syllabus: 123131223,
         link: 'http://localhost:3000/users/login',
-        state: 1
+        state: 1,
+        title: 'Titulo'
     },
-    
+
 ]
 
 const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
@@ -51,10 +57,10 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
     const handleChange = (e) => {
         const { name, value } = e.target
         setSelectedSyll((prevState) => ({
-          ...prevState,
-          [name]: value
+            ...prevState,
+            [name]: value
         }))
-      }
+    }
 
     const deleteLink = (id) => {
         setLinks(links.filter(link => link._id !== id))
@@ -70,7 +76,7 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
         })
         setLinks(newLinks)
     }
-    
+
     return (
         <Col md="3" className='mb-4'>
             <Card className='animate__animated animate__fadeInDown'>
@@ -80,12 +86,12 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                         <Card.Title className='me-auto p-2 bd-highlight'>{selectedSyll.name}</Card.Title>
                         <Button onClick={() => {
                             setEditModal(true)
-                        }} 
-                        className='me-2 cardButton'><MdModeEdit /></Button>
+                        }}
+                            className='me-2 cardButton'><MdModeEdit /></Button>
                         <Button onClick={() => {
                             setDeleteModal(true)
                         }}
-                        variant='danger'
+                            variant='danger'
                         ><AiFillDelete /></Button>
                     </div>
                     <div className="pt-2">
@@ -172,7 +178,7 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                     <Button
                         variant='outline-secondary'
                         onClick={() => setEditModal(false)}
-                    > 
+                    >
                         Cancelar
                     </Button>
                 </Modal.Footer>
@@ -180,13 +186,13 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
 
             {/*Modal de Ver Enlaces */}
             <Modal show={viewModal} dialogClassName="view-modal" scrollable={true}>
-            <Modal.Header>
+                <Modal.Header>
                     <div>
                         <h3>{selectedSyll.name}</h3>
                     </div>
                 </Modal.Header>
                 <Modal.Body>
-                    <h5 className="">
+                    {/* <h5 className="">
                         Enlaces Aceptados
                     </h5>
                     <div className="d-flex align-items-start flex-column bd-highlight mb-3">
@@ -234,6 +240,58 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                             ))
                         )
                     }
+                    </div> */}
+                    <div className="table-scrollable">
+                        <Table striped bordered hover size='sm' className=''>
+                            <thead>
+                                <tr>
+                                    <th className='text-center'>Estado</th>
+                                    <th className='text-center'>Titulo</th>
+                                    <th className='text-center'>URL</th>
+                                    <th className='text-center'>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    links.map(link => (
+                                        (link.syllabus === selectedSyll._id &&
+                                            <tr key={link._id}>
+                                                <td className='text-center'>
+                                                    {link.state === 1 && <IconContext.Provider value={{ size: "2em", style:{color:'17a086'} }}><AiOutlineCheckCircle /></IconContext.Provider>}
+                                                    {link.state === 0 && <IconContext.Provider value={{ size: "2em", style:{color:'0f61aa'} }}><MdPending /></IconContext.Provider>}
+                                                </td>
+                                                <td>{link.title}</td>
+                                                <td><a variant='link' key={link._id} href={link.link} target="_blank" rel="noreferrer">{link.link}</a></td>
+                                                <td className='text-center'>
+                                                    {
+                                                        link.state === 1 &&
+                                                        <Button variant='outline-danger' onClick={() => {
+                                                            deleteLink(link._id)
+                                                            setMsg(`Enlace ${link.link} eliminado correctamente`)
+                                                            setToast(true)
+                                                        }} className='me-2'><AiFillDelete /></Button>
+                                                    }
+                                                    {
+                                                        link.state === 0 &&
+                                                        <div className="">
+                                                            <Button variant='outline-success' onClick={() => {
+                                                                changeState(link._id)
+                                                                setMsg(`Enlace ${link.link} aceptado correctamente`)
+                                                                setToast(true)
+                                                            }} className='me-2'><MdCheck /></Button>
+                                                            <Button variant='outline-danger' onClick={() => {
+                                                                deleteLink(link._id)
+                                                                setMsg(`Enlace ${link.link} denegado correctamente`)
+                                                                setToast(true)
+                                                            }} className='me-2' ><MdClear /></Button>
+                                                        </div>
+                                                    }
+                                                </td>
+                                            </tr>)
+                                    ))
+                                }
+                            </tbody>
+                        </Table>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
@@ -247,14 +305,14 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
             </Modal>
 
             {/* Toast (Alerta) */}
-      <ToastContainer className='p-3' position='top-end'>
-        <Toast onClose={() => setToast(false)} show={toast} delay={3000} autohide>
-          <Toast.Header>
-            <strong className="me-auto">WEBPPJ</strong>
-          </Toast.Header>
-          <Toast.Body>{msg}</Toast.Body>
-        </Toast>
-      </ToastContainer>
+            <ToastContainer className='p-3' position='top-end'>
+                <Toast onClose={() => setToast(false)} show={toast} delay={3000} autohide>
+                    <Toast.Header>
+                        <strong className="me-auto">WEBPPJ</strong>
+                    </Toast.Header>
+                    <Toast.Body>{msg}</Toast.Body>
+                </Toast>
+            </ToastContainer>
 
         </Col>
     )
