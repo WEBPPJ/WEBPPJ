@@ -79,7 +79,7 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
 
     return (
         <Col md="3" className='mb-4'>
-            <Card className='animate__animated animate__fadeInDown'>
+            <Card className='animate__animated animate__fadeInDown syllCard'>
                 {/* Forma 1 */}
                 <Card.Body>
                     <div className="d-flex bd-highlight">

@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import { Alert, Button, Card, Col, Container, Modal, Row } from 'react-bootstrap'
 import { FcIdea } from 'react-icons/fc'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Pagination } from 'swiper'
+import "swiper/css";
+import "swiper/css/pagination";
 
 const syllabusData = [
     {
@@ -60,68 +64,79 @@ const SyllabusUsers = () => {
     const [selectedSyll, setSelectedSyll] = useState({})
 
     return (
-        <Container className='p-4 conta'>
-            <Row>
+        <Container className='p-4'>
+            {
+                (syllabus.length === 0 || !syllabus) && <Alert variant='primary'>Actualmente no hay planes de Estudio</Alert>
+            }
+            <Swiper
+                slidesPerView={3}
+                spaceBetween={30}
+                centeredSlides={true}
+                rewind={true}
+                pagination={{
+                    clickable: true,
+                    dynamicBullets: true,
+                }}
+                modules={[Pagination]}
+                className="mySwiper"
+            >
                 {
-                    syllabus.length === 0
-                        ? (
-                            <Alert variant='primary'>Actualmente no hay planes de Estudio</Alert>
-                        )
-                        :
-                        (
-                            syllabus.map((element) => (
-                                <Col key={element._id} md="3" className='mb-4'>
-                                    <Card className='animate__animated animate__zoomIn animate__delay-0.5s syllCard'>
-                                        <Card.Body>
-                                            <div className="d-flex bd-highlight">
-                                                <Card.Title className='me-auto p-2 bd-highlight'>{element.name}</Card.Title>
-                                            </div>
-                                            <div className="pt-2">
-                                                <Button onClick={() => {
-                                                    setSelectedSyll(element)
-                                                    setViewModal(true)}} className='w-100' variant='secondary'>Ver Enlaces</Button>
-                                            </div>
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
-                            ))
-                        )
+                    syllabus.length > 0 && (
+                        syllabus.map((element) => (
+                            <SwiperSlide key={element._id}>
+                                <Card className='userCard text-white position-relative'>
+                                    <Card.Body>
+                                        <div className="d-flex bd-highlight">
+                                            <Card.Title className='me-auto p-2 bd-highlight'>{element.name}</Card.Title>
+                                            <Card.Subtitle>Plan de Estudio ACL</Card.Subtitle>
+                                        </div>
+                                    </Card.Body>
+                                        <div className="pb-4 position-absolute bottom-0 start-50 translate-middle-x">
+                                            <Button onClick={() => {
+                                                setSelectedSyll(element)
+                                                setViewModal(true)
+                                            }} className='w-100' variant='secondary'>Ver Enlaces</Button>
+                                        </div>
+                                </Card>
+                            </SwiperSlide>
+                        ))
+                    )
                 }
-            </Row>
+            </Swiper>
 
             {/*Modal de Ver Enlaces */}
             {/*TODO: Que se agrege el enlace */}
             <Modal show={viewModal} dialogClassName="view-modal" scrollable={true}>
-            <Modal.Header>
+                <Modal.Header>
                     <div>
                         <h3>{selectedSyll.name}</h3>
                     </div>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="d-flex justify-content-between">
-                    <h5 className="">
-                        Enlaces Disponibles
-                    </h5>
-                    <Button onClick={() => {
-                        setSuggestModal(true)
-                        setViewModal(false)
-                    }} 
-                    variant='info'>¿Tienes alguna sugerencia? Añadela <FcIdea/></Button>
+                        <h5 className="">
+                            Enlaces Disponibles
+                        </h5>
+                        <Button onClick={() => {
+                            setSuggestModal(true)
+                            setViewModal(false)
+                        }}
+                            variant='info'>¿Tienes alguna sugerencia? Añadela <FcIdea /></Button>
                     </div>
                     <div className="d-flex align-items-start flex-column bd-highlight mb-3">
-                    {
-                        links.length === 0
-                        ? (
-                            <Alert variant='primary'>Sin enlaces</Alert>
-                        )
-                        : (
-                            (links).map(link => (
-                                ((link.syllabus === selectedSyll._id) && (link.state === 1 && <div className='p-2 bd-highlight'>
-                                <a className='me-auto p-2 bd-highlight' variant='link' key={link._id} href={link.link} target="_blank" rel="noreferrer">{link.title}</a>
-                                </div>))
-                            ))
-                        )
-                    }
+                        {
+                            links.length === 0
+                                ? (
+                                    <Alert variant='primary'>Sin enlaces</Alert>
+                                )
+                                : (
+                                    (links).map(link => (
+                                        ((link.syllabus === selectedSyll._id) && (link.state === 1 && <div className='p-2 bd-highlight'>
+                                            <a className='me-auto p-2 bd-highlight' variant='link' key={link._id} href={link.link} target="_blank" rel="noreferrer">{link.title}</a>
+                                        </div>))
+                                    ))
+                                )
+                        }
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
@@ -136,13 +151,13 @@ const SyllabusUsers = () => {
 
             {/*Modal de Sugerencia */}
             <Modal show={suggestModal}>
-            <Modal.Header>
+                <Modal.Header>
                     <div>
                         <h3>Sugerencia para {selectedSyll.name}</h3>
                     </div>
                 </Modal.Header>
                 <Modal.Body>
-                <div className="form-group">
+                    <div className="form-group">
                         <label>Enlace</label>
                         <input
                             className="form-control"
@@ -150,7 +165,7 @@ const SyllabusUsers = () => {
                             name="link"
                         />
                         <br />
-                </div>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
