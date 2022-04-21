@@ -102,13 +102,6 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                         <Button className='w-100' variant='secondary' onClick={() => setViewModal(true)}> Ver Enlaces </Button>
                     </div>
                 </Card.Body>
-                {/* Forma 2 */}
-                {/* <Card.Body>
-                <Card.Title className='d-flex justify-content-between align-items-center'>{syllabus.name}<Button variant='success'><AiFillEye/></Button><Button><MdModeEdit/></Button></Card.Title>
-                <div className="pt-2">
-                    <Button className='w-100' variant='danger'> Eliminar </Button>
-                </div>
-            </Card.Body> */}
             </Card>
             {/*Modal de Eliminar */}
             <Modal show={deleteModal}>

@@ -99,8 +99,8 @@ const SyllabusUsers = () => {
                                         </div>
                                         <img
                                             className='img-fluid position-absolute top-50 start-50 translate-middle'
-                                            src="\img\male_avatar.svg"
-                                            alt="gestor-de-tareas"
+                                            src="\img\syllabus_logo.svg"
+                                            alt="syllabus"
                                         ></img>
                                     </Card.Body>
                                 </Card>
