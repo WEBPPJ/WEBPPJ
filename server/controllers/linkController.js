@@ -17,12 +17,12 @@ const add= async (req, res)=>{
 const activate =async (req, res)=>{
     
     const { _id,  active} =req.body;
-    const user = await User.findOne({_id});
-    if (!user){
+    const link = await Link.findOne({_id});
+    if (!link){
         const error= new Error('El enlace no existe')
         return res.status(404).json({msg: error.message})
     }else{
-        await User.findOneAndUpdate({_id}, { active})
+        await Link.findOneAndUpdate({_id}, { active})
         res.json(
             "el estado ha sido cambiado a '"+ active+"'"
         
@@ -30,12 +30,22 @@ const activate =async (req, res)=>{
     }
 }
 const all =async (req,res)=>{
-    User
+    Link
         .find()
-        .then(allUsers => res.json(allUsers))
+        .then(allLinks => res.json(allLinks))
+}
+const actived =async (req,res)=>{
+    Link
+        .find({"active":true})
+        .then(allLinks => res.json(allLinks))
+}
+const unactived =async (req,res)=>{
+    Link
+        .find({"active":false})
+        .then(allLinks => res.json(allLinks))
 }
 
 
 
 
-module.exports= {add, activate, all};
+module.exports= {add, activate, actived, unactived, all};
