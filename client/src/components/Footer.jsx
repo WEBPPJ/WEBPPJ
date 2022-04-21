@@ -17,7 +17,7 @@ const Footer = () => {
                 <OverlayTrigger placement='top' overlay={<Tooltip>Facebook</Tooltip>}><a href="https://www.facebook.com/aclconsultores/" target="_blank" rel="noreferrer"><FaFacebookF /></a></OverlayTrigger>
             </div>
             <div className="svg">
-                <OverlayTrigger placement='top' overlay={<Tooltip>Linkedin</Tooltip>}><a href="https://www.linkedin.com/company/acltecnologia/" target="_blank" rel="noreferrer"><FaLinkedinIn /></a></OverlayTrigger>
+                <OverlayTrigger placement='top' overlay={<Tooltip>LinkedIn</Tooltip>}><a href="https://www.linkedin.com/company/acltecnologia/" target="_blank" rel="noreferrer"><FaLinkedinIn /></a></OverlayTrigger>
             </div>
             </IconContext.Provider>
         </div>
