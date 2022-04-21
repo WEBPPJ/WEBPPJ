@@ -1,7 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { Alert, Button, Container, Modal, Row, Toast, ToastContainer } from 'react-bootstrap'
-import { AiTwotoneQuestionCircle } from 'react-icons/ai'
 import SyllabusCard from './SyllabusCard'
 
 const data = [

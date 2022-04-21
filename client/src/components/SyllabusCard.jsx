@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, Col, Modal, Table, Toast, ToastContainer } from 'react-bootstrap'
+import { Button, Card, Col, Modal, OverlayTrigger, Table, Toast, ToastContainer, Tooltip } from 'react-bootstrap'
 import { MdModeEdit, MdClear, MdCheck, MdPending } from 'react-icons/md'
 import { AiFillDelete, AiOutlineCheckCircle } from 'react-icons/ai'
 import 'animate.css';
@@ -184,20 +184,25 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
     loadLinks()
     return (
         <Col md="3" className='mb-4'>
-            <Card className='animate__animated animate__fadeInDown'>
+            <Card className='animate__animated animate__fadeInDown syllCard'>
                 {/* Forma 1 */}
                 <Card.Body>
                     <div className="d-flex bd-highlight">
                         <Card.Title className='me-auto p-2 bd-highlight'>{selectedSyll.title}</Card.Title>
+                        <OverlayTrigger placement='top' overlay={<Tooltip>Editar Plan de Estudio</Tooltip>}>
                         <Button onClick={() => {
                             setEditModal(true)
                         }}
                             className='me-2 cardButton'><MdModeEdit /></Button>
+                        </OverlayTrigger>
+                        <OverlayTrigger placement='top' overlay={<Tooltip>Eliminar Plan de Estudio</Tooltip>}>
                         <Button onClick={() => {
                             setDeleteModal(true)
                         }}
                             variant='danger'
                         ><AiFillDelete /></Button>
+                        </OverlayTrigger>
+  
                     </div>
                     <div className="pt-2">
 
@@ -298,55 +303,6 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                     </div>
                 </Modal.Header>
                 <Modal.Body>
-                    {/* <h5 className="">
-                        Enlaces Aceptados
-                    </h5>
-                    <div className="d-flex align-items-start flex-column bd-highlight mb-3">
-                    {
-                        links.length === 0
-                        ? (
-                            <Alert variant='primary'>Sin enlaces</Alert>
-                        )
-                        : (
-                            (links).map(link => (
-                                ((link.syllabus === selectedSyll._id) && (link.state === 1 && <div className='p-2 bd-highlight' key={link._id}>
-                                <a className='me-auto p-2 bd-highlight' variant='link' key={link._id} href={link.link} target="_blank" rel="noreferrer">{link.link}</a>
-                                <Button variant='outline-danger' onClick={() => {
-                                    deleteLink(link._id)
-                                    setMsg(`Enlace ${link.link} eliminado correctamente`)
-                                    setToast(true)
-                                }} className='me-2'><AiFillDelete/></Button>
-                                </div>))
-                            ))
-                        )
-                    }
-                    </div>
-                    <h5 className='pt-3'>Enlaces por Aceptar</h5>
-                    <div className="d-flex align-items-start flex-column bd-highlight mb-3">
-                    {
-                        links.length === 0
-                        ? (
-                            <Alert variant='primary'>Sin enlaces por aceptar</Alert>
-                        )
-                        : (
-                            (links).map(link => (
-                                ((link.syllabus === selectedSyll._id) && (link.state === 0 && <div className='p-2 bd-highlight' key={link._id}>
-                                <a className='me-auto p-2 bd-highlight' variant='link' key={link._id} href={link.link} target="_blank" rel="noreferrer">{link.link}</a>
-                                <Button variant='outline-success' onClick={() => {
-                                    changeState(link._id)
-                                    setMsg(`Enlace ${link.link} aceptado correctamente`)
-                                    setToast(true)
-                                }} className='me-2'><MdCheck/></Button>
-                                <Button variant='outline-danger' onClick={() => {
-                                    deleteLink(link._id)
-                                    setMsg(`Enlace ${link.link} denegado correctamente`)
-                                    setToast(true)
-                                }} className='me-2' ><MdClear/></Button>
-                                </div>))
-                            ))
-                        )
-                    }
-                    </div> */}
                     <div className="table-scrollable">
                         <Table striped bordered hover size='sm' className=''>
                             <thead>
@@ -371,24 +327,30 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                                                 <td className='text-center'>
                                                     {
                                                         link.active = false &&
+                                                        <OverlayTrigger placement='right' overlay={<Tooltip>Eliminar Enlace</Tooltip>}>
                                                         <Button variant='outline-danger' onClick={() => {
                                                             setMsg(`Enlace ${link.link} eliminado correctamente`)
                                                             setToast(true)
                                                         }} className='me-2'><AiFillDelete /></Button>
+                                                        </OverlayTrigger>
                                                     }
                                                     {
                                                         link.active = true &&
                                                         <div className="">
+                                                            <OverlayTrigger placement='left' overlay={<Tooltip>Aceptar Enlace</Tooltip>}>
                                                             <Button variant='outline-success' onClick={() => {
                                                                 activate(link)
                                                                 setMsg(`Enlace ${link.link} aceptado correctamente`)
                                                                 setToast(true)
                                                             }} className='me-2'><MdCheck /></Button>
+                                                            </OverlayTrigger>
+                                                            <OverlayTrigger placement='right' overlay={<Tooltip>Denegar Enlace</Tooltip>}>
                                                             <Button variant='outline-danger' onClick={() => {
                                                                 unactivate(link)
                                                                 setMsg(`Enlace ${link.link} denegado correctamente`)
                                                                 setToast(true)
                                                             }} className='me-2' ><MdClear /></Button>
+                                                            </OverlayTrigger>
                                                         </div>
                                                     }
                                                 </td>

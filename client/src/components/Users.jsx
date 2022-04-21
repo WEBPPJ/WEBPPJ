@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, Col, Container, Row, Table, Modal, Form, Toast, ToastContainer } from 'react-bootstrap'
+import { Button, Card, Col, Container, Row, Table, Modal, Form, Toast, ToastContainer, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import logo from '../assets/acl_logo.webp'
 import { RiAdminFill } from 'react-icons/ri'
 import { IconContext } from 'react-icons/lib'
@@ -8,6 +8,7 @@ import { FaUserAlt } from 'react-icons/fa'
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import { MdAdd } from 'react-icons/md'
 import axios from 'axios'
+import 'animate.css';
 
 //* Usuarios de Prueba
 const dataUsers = [
@@ -234,14 +235,14 @@ const Users = () => {
     return (
         <Container className="d-flex justify-content-center pt-4">
             <Col xs={8}>
-                <Card className=''>
+                <Card className='syllCard'>
                     <Card.Body>
                         <Card.Img className="logo" variant='top' src={logo} />
                         <Card.Title>
                             <Row>
                                 <h5>Usuarios</h5>
                                 <div className="d-flex justify-content-end px-4">
-                                    <Button onClick={() => openAddModal()} variant="success"><IconContext.Provider value={{ color: "white" }}><MdAdd /></IconContext.Provider></Button>
+                                    <OverlayTrigger placement='bottom-start' overlay={<Tooltip>Añadir Usuario</Tooltip>}><Button onClick={() => openAddModal()} variant="success"><IconContext.Provider value={{ color: "white" }}><MdAdd /></IconContext.Provider></Button></OverlayTrigger>
                                 </div>
                             </Row>
                         </Card.Title>
@@ -257,12 +258,12 @@ const Users = () => {
                                 <tbody>
                                     {
                                         users.map(user => (
-                                            <tr key={user._id}>
+                                            <tr key={user._id} className='animate__animated animate__fadeIn'>
                                                 <td>{rolIcon(user.role)}</td>
                                                 <td>{user.code}</td>
                                                 <td>
-                                                    <Button className='mx-2' variant="primary" onClick={() => selectUser(user, 'Edit')}><AiFillEdit /></Button>
-                                                    <Button variant="danger" onClick={() => selectUser(user, 'Delete')}><AiFillDelete /></Button>
+                                                    <OverlayTrigger placement='left' overlay={<Tooltip>Editar Usuario</Tooltip>}><Button className='mx-2' variant="primary" onClick={() => selectUser(user, 'Edit')}><AiFillEdit /></Button></OverlayTrigger>
+                                                    <OverlayTrigger placement='right' overlay={<Tooltip>Eliminar Usuario</Tooltip>}><Button variant="danger" onClick={() => selectUser(user, 'Delete')}><AiFillDelete /></Button></OverlayTrigger>
                                                 </td>
                                             </tr>
                                         ))
