@@ -4,6 +4,9 @@ import { MdModeEdit, MdClear, MdCheck, MdPending } from 'react-icons/md'
 import { AiFillDelete, AiOutlineCheckCircle } from 'react-icons/ai'
 import 'animate.css';
 import { IconContext } from 'react-icons/lib'
+import axios from 'axios';
+import { useEffect } from 'react';
+import { useCallback } from 'react';
 
 const data = [
     {
@@ -44,15 +47,19 @@ const data = [
 
 ]
 
-const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
+const SyllabusCard = ({ syllabus, deleteSyll, initialSyll,remove, edit }) => {
 
-    const [links, setLinks] = useState(data)
+    const [links, setLinks] = useState([])
     const [deleteModal, setDeleteModal] = useState(false)
     const [editModal, setEditModal] = useState(false)
     const [viewModal, setViewModal] = useState(false)
     const [selectedSyll, setSelectedSyll] = useState(syllabus)
     const [toast, setToast] = useState(false)
     const [msg, setMsg] = useState('')
+    useEffect(()=>{
+            loadLinks()
+        
+    },[viewModal.links])
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -76,14 +83,100 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
         })
         setLinks(newLinks)
     }
+    
+      const onUpdate = async (e) => {
+        e.preventDefault();
+        const _id=selectedSyll._id
+        const title=selectedSyll.title
+        const syllabus={_id,title}
+       
+          await axios
+            .post("http://localhost:3001/api/syllabus/update", syllabus)
+            .then((res) => {
+              const { data } = res;
+              setTimeout(() => {
+                console.log(data)
+                console.log(selectedSyll.title)
+                setEditModal(false)
+                
+               
+              }, 1500);
+            })
+            .catch((error) => {
+              console.error(error);
+              setTimeout(() => {
+                
+              }, 1500);
+            });
+    };
+    
 
+    const loadLinks = useCallback(async () => {
+        await axios.get('http://localhost:3001/api/links/all')
+        .then((res) => {
+            const { data } = res;
+            setTimeout(() => {
+              setLinks(data)
+              
+             
+            }, 1500);
+          })
+    },[links])
+
+    const activate = async (link) => {
+        const _id=link._id
+        const active=true
+       
+        const lnk={_id, active}
+       
+          await axios
+            .post("http://localhost:3001/api/links/activate", lnk)
+            .then((res) => {
+              const { data } = res;
+              setTimeout(() => {
+                console.log(data)
+                loadLinks()
+              }, 1500);
+            })
+            .catch((error) => {
+              console.error(error);
+              setTimeout(() => {
+                
+              }, 1500);
+            });
+    };
+    
+    const unactivate = async (link) => {
+        const _id=link._id
+        const active=false
+       
+        const lnk={_id, active}
+       
+          await axios
+            .post("http://localhost:3001/api/links/activate", lnk)
+            .then((res) => {
+              const { data } = res;
+              setTimeout(() => {
+                console.log(data)
+                loadLinks()
+               
+              }, 1500);
+            })
+            .catch((error) => {
+              console.error(error);
+              setTimeout(() => {
+                
+              }, 1500);
+            });
+    };
+ 
     return (
         <Col md="3" className='mb-4'>
             <Card className='animate__animated animate__fadeInDown syllCard'>
                 {/* Forma 1 */}
                 <Card.Body>
                     <div className="d-flex bd-highlight">
-                        <Card.Title className='me-auto p-2 bd-highlight'>{selectedSyll.name}</Card.Title>
+                        <Card.Title className='me-auto p-2 bd-highlight'>{selectedSyll.title}</Card.Title>
                         <OverlayTrigger placement='top' overlay={<Tooltip>Editar Plan de Estudio</Tooltip>}>
                         <Button onClick={() => {
                             setEditModal(true)
@@ -97,8 +190,10 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                             variant='danger'
                         ><AiFillDelete /></Button>
                         </OverlayTrigger>
+  
                     </div>
                     <div className="pt-2">
+
                         <Button className='w-100' variant='secondary' onClick={() => setViewModal(true)}> Ver Enlaces </Button>
                     </div>
                 </Card.Body>
@@ -106,16 +201,16 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
             {/*Modal de Eliminar */}
             <Modal show={deleteModal}>
                 <Modal.Body>
-                    Estás Seguro que deseas eliminar el plan de Estudio '{selectedSyll.name}'
+                    Estás Seguro que deseas eliminar el plan de Estudio '{selectedSyll.title}'
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
                         variant="danger"
-                        onClick={() => {
-                            deleteSyll(selectedSyll._id)
+                        onClick={(e) => {
+                            remove(e, selectedSyll._id)
                             setDeleteModal(false)
                             //! El toast no se muestra por la funcion de eliminar, ya que si se comenta, se puede ver que se genera bien, estoy trabajando en ello
-                            setMsg(`Plan ${selectedSyll.name} eliminado correctamente`)
+                            setMsg(`Plan ${selectedSyll.title} eliminado correctamente`)
                             setToast(true)
                         }}
                     >
@@ -153,8 +248,8 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                         <input
                             className="form-control"
                             type="text"
-                            name="name"
-                            value={selectedSyll && selectedSyll.name}
+                            name="title"
+                            defaultValue={selectedSyll && selectedSyll.title}
                             onChange={handleChange}
                         />
                         <br />
@@ -163,10 +258,10 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                 <Modal.Footer>
                     <Button
                         variant='primary'
-                        onClick={() => {
-                            edit(selectedSyll)
+                        onClick={(e) => {
+                            onUpdate(e)
                             setEditModal(false)
-                            setMsg(`Plan ${selectedSyll.name} editado correctamente`)
+                            setMsg(`Plan ${selectedSyll.title} editado correctamente`)
                             setToast(true)
                         }}
                     >
@@ -185,7 +280,7 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
             <Modal show={viewModal} dialogClassName="view-modal" scrollable={true}>
                 <Modal.Header>
                     <div>
-                        <h3>{selectedSyll.name}</h3>
+                        <h3>{selectedSyll.title}</h3>
                     </div>
                 </Modal.Header>
                 <Modal.Body>
@@ -202,44 +297,43 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                             <tbody>
                                 {
                                     links.map(link => (
-                                        (link.syllabus === selectedSyll._id &&
+                                        (link.plan_id === selectedSyll._id &&
                                             <tr key={link._id}>
                                                 <td className='text-center'>
-                                                    {link.state === 1 && <IconContext.Provider value={{ size: "2em", style:{color:'17a086'} }}><AiOutlineCheckCircle /></IconContext.Provider>}
-                                                    {link.state === 0 && <IconContext.Provider value={{ size: "2em", style:{color:'0f61aa'} }}><MdPending /></IconContext.Provider>}
+                                                    {link.active === true && <IconContext.Provider value={{ size: "2em", style:{color:'17a086'} }}><AiOutlineCheckCircle /></IconContext.Provider>}
+                                                    {link.active === false && <IconContext.Provider value={{ size: "2em", style:{color:'0f61aa'} }}><MdPending /></IconContext.Provider>}
                                                 </td>
                                                 <td>{link.title}</td>
-                                                <td><a variant='link' key={link._id} href={link.link} target="_blank" rel="noreferrer">{link.link}</a></td>
+                                                <td><a variant='link' key={link._id} href={link.link} target="_blank" rel="noreferrer">Ingresa aquí</a></td>
                                                 <td className='text-center'>
                                                     {
-                                                        link.state === 1 &&
+                                                        link.active? (
                                                         <OverlayTrigger placement='right' overlay={<Tooltip>Eliminar Enlace</Tooltip>}>
-                                                            <Button variant='outline-danger' onClick={() => {
-                                                            deleteLink(link._id)
+                                                        <Button variant='outline-danger' onClick={() => {
                                                             setMsg(`Enlace ${link.link} eliminado correctamente`)
                                                             setToast(true)
                                                         }} className='me-2'><AiFillDelete /></Button>
-                                                        </OverlayTrigger>
-                                                    }
-                                                    {
-                                                        link.state === 0 &&
-                                                        <div className="">
+                                                        </OverlayTrigger>):(
+                                                            <div className="">
                                                             <OverlayTrigger placement='left' overlay={<Tooltip>Aceptar Enlace</Tooltip>}>
                                                             <Button variant='outline-success' onClick={() => {
-                                                                changeState(link._id)
+                                                                activate(link)
                                                                 setMsg(`Enlace ${link.link} aceptado correctamente`)
                                                                 setToast(true)
                                                             }} className='me-2'><MdCheck /></Button>
                                                             </OverlayTrigger>
                                                             <OverlayTrigger placement='right' overlay={<Tooltip>Denegar Enlace</Tooltip>}>
                                                             <Button variant='outline-danger' onClick={() => {
-                                                                deleteLink(link._id)
+                                                                unactivate(link)
                                                                 setMsg(`Enlace ${link.link} denegado correctamente`)
                                                                 setToast(true)
                                                             }} className='me-2' ><MdClear /></Button>
                                                             </OverlayTrigger>
                                                         </div>
+                                                        )
                                                     }
+                                                    
+                                                    
                                                 </td>
                                             </tr>)
                                     ))

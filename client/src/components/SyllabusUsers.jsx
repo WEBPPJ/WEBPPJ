@@ -6,6 +6,8 @@ import { Pagination } from 'swiper'
 import "swiper/css";
 import "swiper/css/pagination";
 import 'animate.css';
+import { useEffect } from 'react'
+import axios from 'axios'
 
 const syllabusData = [
     {
@@ -58,11 +60,83 @@ const linksData = [
 
 const SyllabusUsers = () => {
 
-    const [syllabus, setSyllabus] = useState(syllabusData)
-    const [links, setLinks] = useState(linksData)
+    const [syllabus, setSyllabus] = useState([])
+    const [links, setLinks] = useState([])
     const [viewModal, setViewModal] = useState(false)
     const [suggestModal, setSuggestModal] = useState(false)
     const [selectedSyll, setSelectedSyll] = useState({})
+    const [newLink, setNewLink]=useState()
+
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setNewLink((prevState) => ({
+          ...prevState,
+          [name]: value
+        }))
+      }
+
+    useEffect(()=>{
+        loadSyllabus()
+    },[])
+    useEffect(()=>{
+        loadLinks()
+    },[])
+    
+    const loadSyllabus =  async () => {
+
+        await axios.get('http://localhost:3001/api/syllabus/all')
+        .then((res) => {
+          const { data } = res;
+          setTimeout(() => {
+            setSyllabus(data)
+            
+           
+          }, 1500);
+        })
+    }
+    const loadLinks = async () => {
+        await axios.get('http://localhost:3001/api/links/all')
+        .then((res) => {
+            const { data } = res;
+            setTimeout(() => {
+              setLinks(data)
+              
+             
+            }, 1500);
+          })
+    }
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        const link=newLink.link
+        const title=newLink.title
+        const plan_id=selectedSyll._id
+        const req={
+            link,
+            title,
+            plan_id
+        }
+        console.log(req)
+          await axios
+            .post("http://localhost:3001/api/links", req)
+            .then((res) => {
+              const { data } = res;
+              setTimeout(() => {
+                console.log(req)
+                setSuggestModal(false)
+                
+               
+              }, 1500);
+            })
+            .catch((error) => {
+              console.error(error);
+              setTimeout(() => {
+                
+              }, 1500);
+            });
+          
+        
+      }
+     
 
     return (
         <Container className='p-4'>
@@ -88,7 +162,7 @@ const SyllabusUsers = () => {
                                 <Card className='userCard text-white position-relative animate__animated animate__zoomIn'>
                                     <Card.Body>
                                         <div className="d-flex bd-highlight">
-                                            <Card.Title className='me-auto p-2 bd-highlight'>{element.name}</Card.Title>
+                                            <Card.Title className='me-auto p-2 bd-highlight'>{element.title}</Card.Title>
                                             <Card.Subtitle>Plan de Estudio ACL</Card.Subtitle>
                                         </div>
                                         <div className="pb-4 position-absolute bottom-0 start-50 translate-middle-x">
@@ -137,7 +211,7 @@ const SyllabusUsers = () => {
                                 )
                                 : (
                                     (links).map(link => (
-                                        ((link.syllabus === selectedSyll._id) && (link.state === 1 && <div className='p-2 bd-highlight'>
+                                        ((link.plan_id === selectedSyll._id) && (link.active = true && <div className='p-2 bd-highlight'>
                                             <a className='me-auto p-2 bd-highlight' variant='link' key={link._id} href={link.link} target="_blank" rel="noreferrer">{link.title}</a>
                                         </div>))
                                     ))
@@ -159,32 +233,46 @@ const SyllabusUsers = () => {
             <Modal show={suggestModal}>
                 <Modal.Header>
                     <div>
-                        <h3>Sugerencia para {selectedSyll.name}</h3>
+                        <h3>Sugerencia para {selectedSyll.title}</h3>
                     </div>
                 </Modal.Header>
                 <Modal.Body>
+                <div className="form-group">
+                        <label>Título</label>
+                        <input
+                            className="form-control"
+                            type="text"
+                            name="title"
+                            onChange={handleChange}
+                        />
+                        <br />
+                    </div>
                     <div className="form-group">
                         <label>Enlace</label>
                         <input
                             className="form-control"
                             type="url"
                             name="link"
+                            onChange={handleChange}
+
                         />
                         <br />
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
+                    onClick={(e) => {
+                        onSubmit(e)
+                        setSuggestModal(false)
+                        setViewModal(true)
+                    }}
                         variant="success"
                     >
                         Sugerir
                     </Button>
                     <Button
                         variant="outline-secondary"
-                        onClick={() => {
-                            setSuggestModal(false)
-                            setViewModal(true)
-                        }}
+                        
                     >
                         Cerrar
                     </Button>
