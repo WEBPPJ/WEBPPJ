@@ -5,6 +5,8 @@ import { AiFillDelete, AiOutlineCheckCircle } from 'react-icons/ai'
 import 'animate.css';
 import { IconContext } from 'react-icons/lib'
 import axios from 'axios';
+import { useEffect } from 'react';
+import { useCallback } from 'react';
 
 const data = [
     {
@@ -45,7 +47,7 @@ const data = [
 
 ]
 
-const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
+const SyllabusCard = ({ syllabus, deleteSyll, initialSyll,remove, edit }) => {
 
     const [links, setLinks] = useState([])
     const [deleteModal, setDeleteModal] = useState(false)
@@ -54,6 +56,10 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
     const [selectedSyll, setSelectedSyll] = useState(syllabus)
     const [toast, setToast] = useState(false)
     const [msg, setMsg] = useState('')
+    useEffect(()=>{
+            loadLinks()
+        
+    },[viewModal.links])
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -77,27 +83,7 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
         })
         setLinks(newLinks)
     }
-    const remove = async (e) => {   
-        e.preventDefault();
-         const _id=selectedSyll._id
-         syllabus={_id}
-          await axios
-            .post("http://localhost:3001/api/syllabus/remove", syllabus)
-            .then((res) => {
-              const { data } = res;
-              setTimeout(() => {
-                console.log(syllabus)  
-                console.log(data)  
-               
-              }, 1500);
-            })
-            .catch((error) => {
-              console.error(error);
-              setTimeout(() => {
-                
-              }, 1500);
-            }); 
-      };
+    
       const onUpdate = async (e) => {
         e.preventDefault();
         const _id=selectedSyll._id
@@ -123,8 +109,9 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
               }, 1500);
             });
     };
+    
 
-    const loadLinks = async () => {
+    const loadLinks = useCallback(async () => {
         await axios.get('http://localhost:3001/api/links/all')
         .then((res) => {
             const { data } = res;
@@ -134,7 +121,8 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
              
             }, 1500);
           })
-    }
+    },[links])
+
     const activate = async (link) => {
         const _id=link._id
         const active=true
@@ -147,8 +135,7 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
               const { data } = res;
               setTimeout(() => {
                 console.log(data)
-                
-               
+                loadLinks()
               }, 1500);
             })
             .catch((error) => {
@@ -158,6 +145,7 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
               }, 1500);
             });
     };
+    
     const unactivate = async (link) => {
         const _id=link._id
         const active=false
@@ -170,7 +158,7 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
               const { data } = res;
               setTimeout(() => {
                 console.log(data)
-                
+                loadLinks()
                
               }, 1500);
             })
@@ -181,7 +169,7 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
               }, 1500);
             });
     };
-    loadLinks()
+ 
     return (
         <Col md="3" className='mb-4'>
             <Card className='animate__animated animate__fadeInDown syllCard'>
@@ -226,7 +214,7 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                     <Button
                         variant="danger"
                         onClick={(e) => {
-                            remove(e)
+                            remove(e, selectedSyll._id)
                             setDeleteModal(false)
                             //! El toast no se muestra por la funcion de eliminar, ya que si se comenta, se puede ver que se genera bien, estoy trabajando en ello
                             setMsg(`Plan ${selectedSyll.title} eliminado correctamente`)
@@ -326,17 +314,14 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                                                 <td><a variant='link' key={link._id} href={link.link} target="_blank" rel="noreferrer">Ingresa aquí</a></td>
                                                 <td className='text-center'>
                                                     {
-                                                        link.active = false &&
+                                                        link.active? (
                                                         <OverlayTrigger placement='right' overlay={<Tooltip>Eliminar Enlace</Tooltip>}>
                                                         <Button variant='outline-danger' onClick={() => {
                                                             setMsg(`Enlace ${link.link} eliminado correctamente`)
                                                             setToast(true)
                                                         }} className='me-2'><AiFillDelete /></Button>
-                                                        </OverlayTrigger>
-                                                    }
-                                                    {
-                                                        link.active = true &&
-                                                        <div className="">
+                                                        </OverlayTrigger>):(
+                                                            <div className="">
                                                             <OverlayTrigger placement='left' overlay={<Tooltip>Aceptar Enlace</Tooltip>}>
                                                             <Button variant='outline-success' onClick={() => {
                                                                 activate(link)
@@ -352,7 +337,10 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll, edit }) => {
                                                             }} className='me-2' ><MdClear /></Button>
                                                             </OverlayTrigger>
                                                         </div>
+                                                        )
                                                     }
+                                                    
+                                                    
                                                 </td>
                                             </tr>)
                                     ))

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
+import { useEffect } from 'react'
 import { Alert, Button, Container, Modal, Row, Toast, ToastContainer } from 'react-bootstrap'
 import SyllabusCard from './SyllabusCard'
 
@@ -22,13 +23,11 @@ const initialSyll = {
 const Syllabus = () => {
 
   const [syllabus, setSyllabus] = useState([])
-  const [links, setLinks] = useState([])
   const [newSyllabus, setNewSyllabus] = useState(initialSyll)
   const [addModal, setAddModal] = useState(false)
   const [toast, setToast] = useState(false)
   const [msg, setMsg] = useState('')
   //TODO: Arreglar para que funcione con MongoDB
-
   const handleChange = (e) => {
     const { name, value } = e.target
     setNewSyllabus((prevState) => ({
@@ -36,6 +35,11 @@ const Syllabus = () => {
       [name]: value
     }))
   }
+  useEffect(()=>{
+    loadSyllabus()
+  },[])
+ 
+  
 
   const add = () => {
     var newSyll = newSyllabus
@@ -76,6 +80,7 @@ const Syllabus = () => {
           const { data } = res;
           setTimeout(() => {
             console.log(data)
+            loadSyllabus()
             setAddModal(false)
             
            
@@ -90,6 +95,29 @@ const Syllabus = () => {
       
     }
   }
+  const remove = async (e, id) => {   
+    e.preventDefault();
+     const _id=id
+     const syllabus={_id}
+      await axios
+        .post("http://localhost:3001/api/syllabus/remove", syllabus)
+        .then((res) => {
+          const { data } = res;
+          setTimeout(() => {
+            console.log(syllabus)  
+            console.log(data)  
+            loadSyllabus()
+           
+          }, 1500);
+        })
+        .catch((error) => {
+          console.error(error);
+          setTimeout(() => {
+            
+          }, 1500);
+        }); 
+  };
+  
   const loadSyllabus =  async () => {
 
     await axios.get('http://localhost:3001/api/syllabus/all')
@@ -102,7 +130,8 @@ const Syllabus = () => {
       }, 1500);
     })
 }
-loadSyllabus()
+
+
   return (
     <Container className='p-4'>
       <Row md="6" className='d-grid gap-2 d-md-flex justify-content-md-end mb-2'>
@@ -115,7 +144,7 @@ loadSyllabus()
           )
           : (
             syllabus.map((element) => (
-              <SyllabusCard initialSyll={initialSyll} deleteSyll={deleteSyll} edit={edit} syllabus={element} key={element._id} />
+              <SyllabusCard initialSyll={initialSyll} deleteSyll={deleteSyll} edit={edit} remove={remove} syllabus={element} key={element._id} />
               
             ))
           )
@@ -147,7 +176,7 @@ loadSyllabus()
             variant='primary'
             onClick={(e) => {
               onSubmit(e)
-              setMsg(`Plan ${newSyllabus.name} creado correctamente`)
+              setMsg(`Plan ${newSyllabus.title} creado correctamente`)
               setToast(true)
             }}
           >
