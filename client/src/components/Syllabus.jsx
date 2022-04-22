@@ -1,34 +1,23 @@
+import axios from 'axios'
 import React, { useState } from 'react'
+import { useEffect } from 'react'
 import { Alert, Button, Container, Modal, Row, Toast, ToastContainer } from 'react-bootstrap'
-import { AiTwotoneQuestionCircle } from 'react-icons/ai'
 import SyllabusCard from './SyllabusCard'
 
-const data = [
-  {
-    _id: 123131223,
-    name: 'MERN',
-  },
-  {
-    _id: 123133421223,
-    name: 'SpringBoot',
-  },
-]
 
 const initialSyll = {
   _id: 0,
-  name: '',
+  title: '',
 }
 
 const Syllabus = () => {
 
-  const [syllabus, setSyllabus] = useState(data)
+  const [syllabus, setSyllabus] = useState([])
   const [newSyllabus, setNewSyllabus] = useState(initialSyll)
   const [addModal, setAddModal] = useState(false)
   const [toast, setToast] = useState(false)
   const [msg, setMsg] = useState('')
-
   //TODO: Arreglar para que funcione con MongoDB
-
   const handleChange = (e) => {
     const { name, value } = e.target
     setNewSyllabus((prevState) => ({
@@ -36,6 +25,11 @@ const Syllabus = () => {
       [name]: value
     }))
   }
+  useEffect(()=>{
+    loadSyllabus()
+  },[])
+ 
+  
 
   const add = () => {
     var newSyll = newSyllabus
@@ -63,6 +57,78 @@ const Syllabus = () => {
     })
     setSyllabus(newSylls)
   }
+  const onSubmit = async (e) => {
+    e.preventDefault();
+   if (newSyllabus.title=="") {
+    setMsg("Ingrese un nombre")
+    setToast(true)
+    }else{
+      const title=newSyllabus.title
+      const syllabus = {
+        title,
+      }
+      await axios
+        .post("http://localhost:3001/api/syllabus/", syllabus)
+        .then((res) => {
+          const { data } = res;
+          setTimeout(() => {
+            setMsg(data)
+            setToast(true)
+            setAddModal(false)
+            loadSyllabus()
+           
+          }, 1500);
+        })
+        .catch((error) => {
+          console.error(error);
+          setMsg(error.response.data.msg)
+          setToast(true)
+          setTimeout(() => {
+            
+          }, 1500);
+        }); 
+      
+    }
+  }
+  const remove = async (e, id) => {   
+    e.preventDefault();
+     const _id=id
+     const syllabus={_id}
+      await axios
+        .post("http://localhost:3001/api/syllabus/remove", syllabus)
+        .then((res) => {
+          const { data } = res;
+          setTimeout(() => {
+            setMsg(data)
+            setToast(true)
+            setAddModal(false)
+            loadSyllabus()
+           
+          }, 1500);
+        })
+        .catch((error) => {
+          console.error(error);
+          setMsg(error.response.data.msg)
+          setToast(true)
+          setTimeout(() => {
+            
+          }, 1500);
+        }); 
+  };
+  
+  const loadSyllabus =  async () => {
+
+    await axios.get('http://localhost:3001/api/syllabus/all')
+    .then((res) => {
+      const { data } = res;
+      setTimeout(() => {
+        setSyllabus(data)
+        
+       
+      }, 1500);
+    })
+}
+
 
   return (
     <Container className='p-4'>
@@ -76,7 +142,8 @@ const Syllabus = () => {
           )
           : (
             syllabus.map((element) => (
-              <SyllabusCard initialSyll={initialSyll} deleteSyll={deleteSyll} edit={edit} syllabus={element} key={element._id} />
+              <SyllabusCard initialSyll={initialSyll} deleteSyll={deleteSyll} edit={edit} remove={remove} syllabus={element} key={element._id} />
+              
             ))
           )
         }
@@ -91,20 +158,12 @@ const Syllabus = () => {
         </Modal.Header>
         <Modal.Body>
           <div className="form-group">
-            <label>ID</label>
-            <input
-              className="form-control"
-              type="text"
-              name="_id"
-              onChange={handleChange}
-            />
-            <br />
-
+            
             <label>Nombre</label>
             <input
               className="form-control"
               type="text"
-              name="name"
+              name="title"
               onChange={handleChange}
             />
             <br />
@@ -113,10 +172,8 @@ const Syllabus = () => {
         <Modal.Footer>
           <Button
             variant='primary'
-            onClick={() => {
-              add()
-              setMsg(`Plan ${newSyllabus.name} creado correctamente`)
-              setToast(true)
+            onClick={(e) => {
+              onSubmit(e)
             }}
           >
             Agregar

@@ -50,16 +50,16 @@ const authenticate =async (req, res)=>{
 }
 const update =async (req, res)=>{
     
-    const {_id, code, role, password} =req.body;
+    const { code, role} =req.body;
     //buscar usuario
     const user = await User.findOne({code});
     if (!user){
         const error= new Error('El usuario no existe')
         return res.status(404).json({msg: error.message})
     }else{
-        await User.findOneAndUpdate({code}, {role, password})
+        await User.findOneAndUpdate({code}, {role})
         res.json(
-            "Datos del usuario actualizados"
+            "Rol del usuario actualizado"
         
         )
     }

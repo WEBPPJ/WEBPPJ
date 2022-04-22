@@ -11,14 +11,15 @@ const NavbarExample = () => {
 
     return (
         <>
-            <Navbar className="navBg" bg="light" variant="light" expand="lg">
+            <Navbar className="navBg nav-links" bg="light" variant="light" expand="lg">
                 <Container>
                     <Navbar.Brand as={Link} to={routes.home}><img className='logo' src={logo} alt="ACL" /></Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                            {user && <Nav.Link as={Link} to={routes.users}>Usuarios</Nav.Link> }
-                            {user && <Nav.Link as={Link} to={routes.plan}>Planes de estudio</Nav.Link> }
+                            <Nav.Link as={Link} to={routes.users}>Usuarios</Nav.Link>
+                            <Nav.Link as={Link} to={routes.plan}>Administración</Nav.Link>
+                            <Nav.Link as={Link} to={routes.planes}>Planes de estudio</Nav.Link>
                         </Nav>
                         <Nav>
                             <Nav.Link as={Link} to={routes.login}>Login</Nav.Link>

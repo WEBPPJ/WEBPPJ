@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, Col, Container, Row, Table, Modal, Form, Toast, ToastContainer } from 'react-bootstrap'
+import { Button, Card, Col, Container, Row, Table, Modal, Form, Toast, ToastContainer, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import logo from '../assets/acl_logo.webp'
 import { RiAdminFill } from 'react-icons/ri'
 import { IconContext } from 'react-icons/lib'
@@ -8,28 +8,9 @@ import { FaUserAlt } from 'react-icons/fa'
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import { MdAdd } from 'react-icons/md'
 import axios from 'axios'
+import 'animate.css';
 
-//* Usuarios de Prueba
-const dataUsers = [
-    {
-        code: 20,
-        _id: "04324242F",
-        rol: 'user',
-        password: 'asdadad'
-    },
-    {
-        code: 21,
-        _id: "04332432242F",
-        rol: 'support',
-        password: 'asdadad'
-    },
-    {
-        code: 22,
-        _id: "04334124242F",
-        rol: 'admin',
-        password: 'asdadad'
-    },
-]
+
 
 const initialUser = {
     _id: 0,
@@ -111,11 +92,9 @@ const Users = () => {
         e.preventDefault();
        if (selectedUser.code!==0) {
            const code=selectedUser.code
-           const password=selectedUser.password
            const role=selectedUser.rol
          const user = {
            code,
-           password,
            role
         }
           await axios
@@ -123,7 +102,6 @@ const Users = () => {
             .then((res) => {
               const { data } = res;
               setTimeout(() => {
-                console.log(data)
                 setAddModal(false)
                 
                
@@ -132,15 +110,19 @@ const Users = () => {
             .catch((error) => {
               console.error(error);
               setTimeout(() => {
-                
+                setMsg(error.response.data.msg)
+                setToast(true)
               }, 1500);
             });
-          
         }
+        
       };
       const onUpdate = async (e) => {
         e.preventDefault();
-       if (selectedUser.code!==0) {
+       if (selectedUser.password.length>=1 && selectedUser.password.length<=5){
+        setMsg("si se desea cambiar la contraseña, ingrese mas de 5 carácteres")
+        setToast(true)
+       }else {
            const code=selectedUser.code
            const password=selectedUser.password
            const role=selectedUser.rol
@@ -154,8 +136,10 @@ const Users = () => {
             .then((res) => {
               const { data } = res;
               setTimeout(() => {
-                console.log(data)
                 setEditModal(false)
+                setMsg(data)
+                setToast(true)
+                console.log(user)
                 
                
               }, 1500);
@@ -207,41 +191,18 @@ const Users = () => {
       
     loadUsers()
 
-    //TODO Cambiar para que funcione con MongoDB
-    const edit = () => {
-        var newUsers = users
-        newUsers.map(user => {
-            if (user._id === selectedUser._id) {
-                user.code = selectedUser.code
-                user.rol = selectedUser.rol
-            }
-        })
-        setUsers(newUsers)
-        setEditModal(false)
-    }
-    const softDelete = () => {
-        setUsers(users.filter(user => user._id !== selectedUser._id))
-        setDeleteModal(false)
-    }
-    const add = () => {
-        var newUser = selectedUser
-        var newUsers = users
-        newUsers.push(newUser)
-        setUsers(newUsers)
-        setAddModal(false)
-    }
 
     return (
         <Container className="d-flex justify-content-center pt-4">
             <Col xs={8}>
-                <Card className=''>
+                <Card className='syllCard'>
                     <Card.Body>
                         <Card.Img className="logo" variant='top' src={logo} />
                         <Card.Title>
                             <Row>
                                 <h5>Usuarios</h5>
                                 <div className="d-flex justify-content-end px-4">
-                                    <Button onClick={() => openAddModal()} variant="success"><IconContext.Provider value={{ color: "white" }}><MdAdd /></IconContext.Provider></Button>
+                                    <OverlayTrigger placement='bottom-start' overlay={<Tooltip>Añadir Usuario</Tooltip>}><Button onClick={() => openAddModal()} variant="success"><IconContext.Provider value={{ color: "white" }}><MdAdd /></IconContext.Provider></Button></OverlayTrigger>
                                 </div>
                             </Row>
                         </Card.Title>
@@ -257,12 +218,12 @@ const Users = () => {
                                 <tbody>
                                     {
                                         users.map(user => (
-                                            <tr key={user._id}>
+                                            <tr key={user._id} className='animate__animated animate__fadeIn'>
                                                 <td>{rolIcon(user.role)}</td>
                                                 <td>{user.code}</td>
                                                 <td>
-                                                    <Button className='mx-2' variant="primary" onClick={() => selectUser(user, 'Edit')}><AiFillEdit /></Button>
-                                                    <Button variant="danger" onClick={() => selectUser(user, 'Delete')}><AiFillDelete /></Button>
+                                                    <OverlayTrigger placement='left' overlay={<Tooltip>Editar Usuario</Tooltip>}><Button className='mx-2' variant="primary" onClick={() => selectUser(user, 'Edit')}><AiFillEdit /></Button></OverlayTrigger>
+                                                    <OverlayTrigger placement='right' overlay={<Tooltip>Eliminar Usuario</Tooltip>}><Button variant="danger" onClick={() => selectUser(user, 'Delete')}><AiFillDelete /></Button></OverlayTrigger>
                                                 </td>
                                             </tr>
                                         ))
@@ -301,7 +262,9 @@ const Users = () => {
                             min='1'
                             value={selectedUser && selectedUser.code}
                             onChange={handleChange}
+                            readOnly
                         />
+                        
                         <br />
 
                         <label>Rol</label>
@@ -312,7 +275,7 @@ const Users = () => {
                             value={selectedUser && selectedUser.rol}
                             onChange={handleChange}
                         /> */}
-                        <Form.Select name="rol" value={selectedUser && selectedUser.role} onChange={handleChange} >
+                        <Form.Select name="rol" defaultValue={selectedUser && selectedUser.role} onChange={handleChange} >
                             {
                                 roles.map(rol => (
                                     <option value={rol.en} key={rol.en}>{rol.es}</option>
