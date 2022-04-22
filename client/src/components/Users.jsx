@@ -10,27 +10,7 @@ import { MdAdd } from 'react-icons/md'
 import axios from 'axios'
 import 'animate.css';
 
-//* Usuarios de Prueba
-const dataUsers = [
-    {
-        code: 20,
-        _id: "04324242F",
-        rol: 'user',
-        password: 'asdadad'
-    },
-    {
-        code: 21,
-        _id: "04332432242F",
-        rol: 'support',
-        password: 'asdadad'
-    },
-    {
-        code: 22,
-        _id: "04334124242F",
-        rol: 'admin',
-        password: 'asdadad'
-    },
-]
+
 
 const initialUser = {
     _id: 0,
@@ -112,11 +92,9 @@ const Users = () => {
         e.preventDefault();
        if (selectedUser.code!==0) {
            const code=selectedUser.code
-           const password=selectedUser.password
            const role=selectedUser.rol
          const user = {
            code,
-           password,
            role
         }
           await axios
@@ -124,7 +102,6 @@ const Users = () => {
             .then((res) => {
               const { data } = res;
               setTimeout(() => {
-                console.log(data)
                 setAddModal(false)
                 
                
@@ -133,15 +110,19 @@ const Users = () => {
             .catch((error) => {
               console.error(error);
               setTimeout(() => {
-                
+                setMsg(error.response.data.msg)
+                setToast(true)
               }, 1500);
             });
-          
         }
+        
       };
       const onUpdate = async (e) => {
         e.preventDefault();
-       if (selectedUser.code!==0) {
+       if (selectedUser.password.length>=1 && selectedUser.password.length<=5){
+        setMsg("si se desea cambiar la contraseña, ingrese mas de 5 carácteres")
+        setToast(true)
+       }else {
            const code=selectedUser.code
            const password=selectedUser.password
            const role=selectedUser.rol
@@ -155,8 +136,10 @@ const Users = () => {
             .then((res) => {
               const { data } = res;
               setTimeout(() => {
-                console.log(data)
                 setEditModal(false)
+                setMsg(data)
+                setToast(true)
+                console.log(user)
                 
                
               }, 1500);
@@ -208,29 +191,6 @@ const Users = () => {
       
     loadUsers()
 
-    //TODO Cambiar para que funcione con MongoDB
-    const edit = () => {
-        var newUsers = users
-        newUsers.map(user => {
-            if (user._id === selectedUser._id) {
-                user.code = selectedUser.code
-                user.rol = selectedUser.rol
-            }
-        })
-        setUsers(newUsers)
-        setEditModal(false)
-    }
-    const softDelete = () => {
-        setUsers(users.filter(user => user._id !== selectedUser._id))
-        setDeleteModal(false)
-    }
-    const add = () => {
-        var newUser = selectedUser
-        var newUsers = users
-        newUsers.push(newUser)
-        setUsers(newUsers)
-        setAddModal(false)
-    }
 
     return (
         <Container className="d-flex justify-content-center pt-4">
@@ -302,7 +262,9 @@ const Users = () => {
                             min='1'
                             value={selectedUser && selectedUser.code}
                             onChange={handleChange}
+                            readOnly
                         />
+                        
                         <br />
 
                         <label>Rol</label>
@@ -313,7 +275,7 @@ const Users = () => {
                             value={selectedUser && selectedUser.rol}
                             onChange={handleChange}
                         /> */}
-                        <Form.Select name="rol" value={selectedUser && selectedUser.role} onChange={handleChange} >
+                        <Form.Select name="rol" defaultValue={selectedUser && selectedUser.role} onChange={handleChange} >
                             {
                                 roles.map(rol => (
                                     <option value={rol.en} key={rol.en}>{rol.es}</option>

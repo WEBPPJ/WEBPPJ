@@ -4,20 +4,10 @@ import { useEffect } from 'react'
 import { Alert, Button, Container, Modal, Row, Toast, ToastContainer } from 'react-bootstrap'
 import SyllabusCard from './SyllabusCard'
 
-const data = [
-  {
-    _id: 123131223,
-    name: 'MERN',
-  },
-  {
-    _id: 123133421223,
-    name: 'SpringBoot',
-  },
-]
 
 const initialSyll = {
   _id: 0,
-  name: '',
+  title: '',
 }
 
 const Syllabus = () => {
@@ -69,29 +59,34 @@ const Syllabus = () => {
   }
   const onSubmit = async (e) => {
     e.preventDefault();
-   if (newSyllabus.title!=="") {
-       const title=newSyllabus.title
-     const syllabus = {
-       title,
-    }
+   if (newSyllabus.title=="") {
+    setMsg("Ingrese un nombre")
+    setToast(true)
+    }else{
+      const title=newSyllabus.title
+      const syllabus = {
+        title,
+      }
       await axios
         .post("http://localhost:3001/api/syllabus/", syllabus)
         .then((res) => {
           const { data } = res;
           setTimeout(() => {
-            console.log(data)
-            loadSyllabus()
+            setMsg(data)
+            setToast(true)
             setAddModal(false)
-            
+            loadSyllabus()
            
           }, 1500);
         })
         .catch((error) => {
           console.error(error);
+          setMsg(error.response.data.msg)
+          setToast(true)
           setTimeout(() => {
             
           }, 1500);
-        });
+        }); 
       
     }
   }
@@ -104,14 +99,17 @@ const Syllabus = () => {
         .then((res) => {
           const { data } = res;
           setTimeout(() => {
-            console.log(syllabus)  
-            console.log(data)  
+            setMsg(data)
+            setToast(true)
+            setAddModal(false)
             loadSyllabus()
            
           }, 1500);
         })
         .catch((error) => {
           console.error(error);
+          setMsg(error.response.data.msg)
+          setToast(true)
           setTimeout(() => {
             
           }, 1500);
@@ -176,8 +174,6 @@ const Syllabus = () => {
             variant='primary'
             onClick={(e) => {
               onSubmit(e)
-              setMsg(`Plan ${newSyllabus.title} creado correctamente`)
-              setToast(true)
             }}
           >
             Agregar

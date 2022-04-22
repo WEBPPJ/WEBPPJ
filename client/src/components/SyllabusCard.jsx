@@ -84,30 +84,37 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll,remove, edit }) => {
         setLinks(newLinks)
     }
     
-      const onUpdate = async (e) => {
-        e.preventDefault();
+    const onUpdate = async (e) => { 
+    e.preventDefault();
+    if(selectedSyll.newTitle==""){
+        setMsg("Ingrese un nombre")
+        setToast(true)
+    }else{
         const _id=selectedSyll._id
-        const title=selectedSyll.title
+        const title=selectedSyll.newTitle
         const syllabus={_id,title}
-       
-          await axios
-            .post("http://localhost:3001/api/syllabus/update", syllabus)
-            .then((res) => {
-              const { data } = res;
-              setTimeout(() => {
-                console.log(data)
-                console.log(selectedSyll.title)
+        
+        await axios
+        .post("http://localhost:3001/api/syllabus/update", syllabus)
+        .then((res) => {
+            const { data } = res;
+            setTimeout(() => {
                 setEditModal(false)
+                selectedSyll.title=selectedSyll.newTitle
+                setMsg(`Plan ${selectedSyll.title} editado correctamente`)
+                setToast(true)
                 
-               
-              }, 1500);
+            }, 1500);
             })
             .catch((error) => {
-              console.error(error);
-              setTimeout(() => {
+            console.error(error);
+            setMsg(error.response.data.msg)
+            setToast(true)
+            setTimeout(() => {
                 
-              }, 1500);
-            });
+            }, 1500);
+            }); 
+        }
     };
     
 
@@ -249,7 +256,16 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll,remove, edit }) => {
                             className="form-control"
                             type="text"
                             name="title"
-                            defaultValue={selectedSyll && selectedSyll.title}
+                            value={selectedSyll && selectedSyll.title}
+                            onChange={handleChange}
+                            readOnly
+                        />
+                        <br />
+                        <label>Nuevo nombre</label>
+                        <input
+                            className="form-control"
+                            type="text"
+                            name="newTitle"
                             onChange={handleChange}
                         />
                         <br />
@@ -260,9 +276,6 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll,remove, edit }) => {
                         variant='primary'
                         onClick={(e) => {
                             onUpdate(e)
-                            setEditModal(false)
-                            setMsg(`Plan ${selectedSyll.title} editado correctamente`)
-                            setToast(true)
                         }}
                     >
                         Agregar
