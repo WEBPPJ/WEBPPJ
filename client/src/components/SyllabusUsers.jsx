@@ -9,55 +9,6 @@ import 'animate.css';
 import { useEffect } from 'react'
 import axios from 'axios'
 
-const syllabusData = [
-    {
-        _id: 123131223,
-        name: 'MERN',
-    },
-    {
-        _id: 123133421223,
-        name: 'SpringBoot',
-    },
-]
-const linksData = [
-    {
-        _id: 32424,
-        syllabus: 123131223,
-        link: 'http://localhost:3000/users/login',
-        state: 0,
-        title: 'Titulo'
-    },
-    {
-        _id: 132424,
-        syllabus: 123131223,
-        link: 'http://localhost:3000/syllabus',
-        state: 1,
-        title: 'Titulo'
-    },
-    {
-        _id: 332424,
-        syllabus: 123133421223,
-        link: 'http://localhost:3000/users',
-        state: 0,
-        title: 'Titulo'
-    },
-    {
-        _id: 3243124,
-        syllabus: 123133421223,
-        link: 'https://react-bootstrap.github.io/components/alerts',
-        state: 1,
-        title: 'Titulo'
-    },
-    {
-        _id: 532424,
-        syllabus: 123131223,
-        link: 'http://localhost:3000/users/login',
-        state: 1,
-        title: 'Titulo'
-    },
-
-]
-
 const SyllabusUsers = () => {
 
     const [syllabus, setSyllabus] = useState([])
@@ -66,6 +17,7 @@ const SyllabusUsers = () => {
     const [suggestModal, setSuggestModal] = useState(false)
     const [selectedSyll, setSelectedSyll] = useState({})
     const [newLink, setNewLink]=useState()
+    const [isLoading, setIsLoading] = useState(true)
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -272,7 +224,10 @@ const SyllabusUsers = () => {
                     </Button>
                     <Button
                         variant="outline-secondary"
-                        
+                        onClick={(e) => {
+                            setSuggestModal(false)
+                            setViewModal(true)
+                        }}
                     >
                         Cerrar
                     </Button>
