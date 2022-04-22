@@ -17,7 +17,7 @@ const SyllabusCard = ({ syllabus,remove }) => {
     const [selectedSyll, setSelectedSyll] = useState(syllabus)
     const [toast, setToast] = useState(false)
     const [msg, setMsg] = useState('')
-    const [isLoading, setIsLoading] = useState(true)
+    
     useEffect(()=>{
             loadLinks()
         

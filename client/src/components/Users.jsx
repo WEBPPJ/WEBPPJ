@@ -18,13 +18,6 @@ const initialUser = {
     rol: "user"
 }
 
-/* 
-*       Roles
-*   0: Usuario Regular
-*   1: Usuario Soporte
-*   2: Usuario Administrador
-*/
-
 const roles = [
     {
         en: 'user',
@@ -347,12 +340,6 @@ const Users = () => {
                         <br />
 
                         <label>Rol</label>
-                        {/* <input
-                            className="form-control"
-                            type="text"
-                            name="rol"
-                            onChange={handleChange}
-                        /> */}
                         <Form.Select name="rol" value={selectedUser && selectedUser.rol} onChange={handleChange} >
                             {
                                 roles.map(rol => (

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import video from '../assets/video.mp4'
 import axios from "axios"
-import { Alert, Toast } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
 
 
 
@@ -18,7 +18,6 @@ const Login = () => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  //TODO: Crear codigo para enviar la info del formulario al server, ej (En este caso, instalar axios):
    const onSubmit = async (e) => {
      e.preventDefault();
     if (code !== "" && password !== "") {

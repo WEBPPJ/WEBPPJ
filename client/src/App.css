@@ -146,15 +146,6 @@ input:focus {
   outline-color: var(--white);
 }
 
-/* footer {
-  background-color: var(--dark);
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  width: 100%;
-} */
-
 footer {
   background-color: var(--dark);
   position: absolute;

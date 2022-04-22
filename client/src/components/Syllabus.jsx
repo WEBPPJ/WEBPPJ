@@ -35,7 +35,7 @@ const Syllabus = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (newSyllabus.title == "") {
+    if (newSyllabus.title === "") {
       setMsg("Ingrese un nombre")
       setToast(true)
     } else {

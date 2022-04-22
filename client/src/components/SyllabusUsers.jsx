@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, Button, Card, Col, Container, Modal, Row } from 'react-bootstrap'
+import { Alert, Button, Card, Container, Modal} from 'react-bootstrap'
 import { FcIdea } from 'react-icons/fc'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper'

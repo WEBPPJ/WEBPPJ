@@ -2,7 +2,7 @@ import React from 'react'
 import { FaFacebookF, FaLinkedinIn } from 'react-icons/fa'
 import { BiWorld } from 'react-icons/bi'
 import { IconContext } from 'react-icons'
-import { Col, Container, OverlayTrigger, Row, Tooltip } from 'react-bootstrap'
+import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 
 const Footer = () => {
     return (
