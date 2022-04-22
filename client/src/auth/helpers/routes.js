@@ -5,7 +5,9 @@ const routes ={
     users:'/users',
     login:'users/login',
     plan:'/plan',
-    planes: '/planes'
+    planes: '/planes',
+    account: '/account'
+    
 }
 
 export default routes;

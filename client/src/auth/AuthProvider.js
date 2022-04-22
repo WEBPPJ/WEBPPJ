@@ -1,4 +1,4 @@
-import { createContext, useState} from 'react'
+import { createContext, useState, useEffect}  from 'react'
 import roles from './helpers/roles';
 
 export const AuthContext = createContext()
@@ -9,9 +9,15 @@ export default function AuthProvider({children}){
     
     const login =(userCredentials, fromlocation)=> {
         //usuario de prueba
-        setUser({id:1,name:'Bastian', role: roles.support});
+        setUser({id:1, name:'Bastian', role: roles.support});
        
     }
+
+    useEffect(() => {
+        const token = localStorage.getItem('token')
+
+        console.log(token)
+    })
 
     //cambios de estado del login
     const logout =()=> setUser(null);
