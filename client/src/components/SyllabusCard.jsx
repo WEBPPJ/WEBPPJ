@@ -17,6 +17,7 @@ const SyllabusCard = ({ syllabus,remove }) => {
     const [selectedSyll, setSelectedSyll] = useState(syllabus)
     const [toast, setToast] = useState(false)
     const [msg, setMsg] = useState('')
+    const [isLoading, setIsLoading] = useState(true)
     useEffect(()=>{
             loadLinks()
         
@@ -126,7 +127,6 @@ const SyllabusCard = ({ syllabus,remove }) => {
     return (
         <Col md="3" className='mb-4'>
             <Card className='animate__animated animate__fadeInDown syllCard'>
-                {/* Forma 1 */}
                 <Card.Body>
                     <div className="d-flex bd-highlight">
                         <Card.Title className='me-auto p-2 bd-highlight'>{selectedSyll.title}</Card.Title>
