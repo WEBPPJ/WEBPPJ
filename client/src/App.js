@@ -11,6 +11,7 @@ import PrivateRoute from './routers/PrivateRoute';
 import PublicRoute from './routers/PublicRoute';
 import AuthProvider from './auth/AuthProvider';
 import SyllabusUsers from './components/SyllabusUsers';
+import AccountPage from './components/Account';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               <Route path={routes.login} element={<Login/>}/>
               <Route path={routes.plan} element={<Syllabus/>}/>
               <Route path={routes.planes} element={<SyllabusUsers/>}/>
+              <Route path={routes.account} element={<AccountPage/>}/>
               <Route path="*" element={ <Navigate replace to="/"/> } />
           </Route>
         </Routes>
