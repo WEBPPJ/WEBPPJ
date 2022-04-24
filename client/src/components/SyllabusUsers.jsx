@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, Button, Card, Col, Container, Modal, Row } from 'react-bootstrap'
+import { Alert, Button, Card, Container, Modal} from 'react-bootstrap'
 import { FcIdea } from 'react-icons/fc'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper'
@@ -8,6 +8,7 @@ import "swiper/css/pagination";
 import 'animate.css';
 import { useEffect } from 'react'
 import axios from 'axios'
+import LoadingSpinner from './LoadingSpinner'
 
 const SyllabusUsers = () => {
 
@@ -41,9 +42,9 @@ const SyllabusUsers = () => {
           const { data } = res;
           setTimeout(() => {
             setSyllabus(data)
-            
+            setIsLoading(false)
            
-          }, 1500);
+          }, 500);
         })
     }
     const loadLinks = async () => {
@@ -54,7 +55,7 @@ const SyllabusUsers = () => {
               setLinks(data)
               
              
-            }, 1500);
+            }, 500);
           })
     }
     const onSubmit = async (e) => {
@@ -93,51 +94,55 @@ const SyllabusUsers = () => {
     return (
         <Container className='p-4'>
             {
-                (syllabus.length === 0 || !syllabus) && <Alert variant='primary'>Actualmente no hay planes de Estudio</Alert>
-            }
-            <Swiper
-                slidesPerView={3}
-                spaceBetween={30}
-                centeredSlides={true}
-                rewind={true}
-                pagination={{
-                    clickable: true,
-                    dynamicBullets: true,
-                }}
-                modules={[Pagination]}
-                className="mySwiper"
-            >
-                {
-                    syllabus.length > 0 && (
-                        syllabus.map((element) => (
-                            <SwiperSlide key={element._id}>
-                                <Card className='userCard text-white position-relative animate__animated animate__zoomIn'>
-                                    <Card.Body>
-                                        <div className="d-flex bd-highlight">
-                                            <Card.Title className='me-auto p-2 bd-highlight'>{element.title}</Card.Title>
-                                            <Card.Subtitle>Plan de Estudio ACL</Card.Subtitle>
-                                        </div>
-                                        <div className="pb-4 position-absolute bottom-0 start-50 translate-middle-x">
-                                            <Button onClick={() => {
-                                                setSelectedSyll(element)
-                                                setViewModal(true)
-                                            }} className='w-100' variant='secondary'>Ver Enlaces</Button>
-                                        </div>
-                                        <img
-                                            className='img-fluid position-absolute top-50 start-50 translate-middle'
-                                            src="\img\syllabus_logo.svg"
-                                            alt="syllabus"
-                                        ></img>
-                                    </Card.Body>
-                                </Card>
-                            </SwiperSlide>
-                        ))
+                isLoading
+                ? (<LoadingSpinner/>)
+                :(
+                    ((syllabus.length === 0 || !syllabus) 
+                    ? (<Alert variant='primary'>Actualmente no hay planes de Estudio</Alert>)
+                    :(<Swiper
+                        slidesPerView={3}
+                        spaceBetween={30}
+                        centeredSlides={true}
+                        rewind={true}
+                        pagination={{
+                            clickable: true,
+                            dynamicBullets: true,
+                        }}
+                        modules={[Pagination]}
+                        className="mySwiper"
+                    >
+                        {
+                            syllabus.length > 0 && (
+                                syllabus.map((element) => (
+                                    <SwiperSlide key={element._id}>
+                                        <Card className='userCard text-white position-relative animate__animated animate__zoomIn'>
+                                            <Card.Body>
+                                                <div className="d-flex bd-highlight">
+                                                    <Card.Title className='me-auto p-2 bd-highlight'>{element.title}</Card.Title>
+                                                    <Card.Subtitle>Plan de Estudio ACL</Card.Subtitle>
+                                                </div>
+                                                <div className="pb-4 position-absolute bottom-0 start-50 translate-middle-x">
+                                                    <Button onClick={() => {
+                                                        setSelectedSyll(element)
+                                                        setViewModal(true)
+                                                    }} className='w-100' variant='secondary'>Ver Enlaces</Button>
+                                                </div>
+                                                <img
+                                                    className='img-fluid position-absolute top-50 start-50 translate-middle'
+                                                    src="\img\syllabus_logo.svg"
+                                                    alt="syllabus"
+                                                ></img>
+                                            </Card.Body>
+                                        </Card>
+                                    </SwiperSlide>
+                                ))
+                            )
+                        }
+                    </Swiper>)
                     )
-                }
-            </Swiper>
-
+                )
+            }
             {/*Modal de Ver Enlaces */}
-            {/*TODO: Que se agrege el enlace */}
             <Modal show={viewModal} dialogClassName="view-modal" scrollable={true}>
                 <Modal.Header>
                     <div>

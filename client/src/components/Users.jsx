@@ -18,13 +18,6 @@ const initialUser = {
     rol: "user"
 }
 
-/* 
-*       Roles
-*   0: Usuario Regular
-*   1: Usuario Soporte
-*   2: Usuario Administrador
-*/
-
 const roles = [
     {
         en: 'user',
@@ -125,7 +118,7 @@ const Users = () => {
       const onUpdate = async (e) => {
         e.preventDefault();
        if (selectedUser.password.length>=1 && selectedUser.password.length<=5){
-        setMsg("si se desea cambiar la contraseña, ingrese mas de 5 carácteres")
+        setMsg("Si se desea cambiar la contraseña, ingrese mas de 5 carácteres")
         setToast(true)
        }else {
            const code=selectedUser.code
@@ -269,13 +262,6 @@ const Users = () => {
                         <br />
 
                         <label>Rol</label>
-                        {/* <input
-                            className="form-control"
-                            type="text"
-                            name="rol"
-                            value={selectedUser && selectedUser.rol}
-                            onChange={handleChange}
-                        /> */}
                         <Form.Select name="rol" defaultValue={selectedUser && selectedUser.role} onChange={handleChange} >
                             {
                                 roles.map(rol => (
@@ -355,12 +341,6 @@ const Users = () => {
                         <br />
 
                         <label>Rol</label>
-                        {/* <input
-                            className="form-control"
-                            type="text"
-                            name="rol"
-                            onChange={handleChange}
-                        /> */}
                         <Form.Select name="rol" value={selectedUser && selectedUser.rol} onChange={handleChange} >
                             {
                                 roles.map(rol => (

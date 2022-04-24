@@ -8,46 +8,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useCallback } from 'react';
 
-const data = [
-    {
-        _id: 32424,
-        syllabus: 123131223,
-        link: 'http://localhost:3000/users/login',
-        state: 0,
-        title: 'Titulo'
-    },
-    {
-        _id: 132424,
-        syllabus: 123131223,
-        link: 'http://localhost:3000/syllabus',
-        state: 1,
-        title: 'Titulo'
-    },
-    {
-        _id: 332424,
-        syllabus: 123133421223,
-        link: 'http://localhost:3000/users',
-        state: 0,
-        title: 'Titulo'
-    },
-    {
-        _id: 3243124,
-        syllabus: 123133421223,
-        link: 'https://react-bootstrap.github.io/components/alerts',
-        state: 1,
-        title: 'Titulo'
-    },
-    {
-        _id: 532424,
-        syllabus: 123131223,
-        link: 'http://localhost:3000/users/login',
-        state: 1,
-        title: 'Titulo'
-    },
-
-]
-
-const SyllabusCard = ({ syllabus, deleteSyll, initialSyll,remove, edit }) => {
+const SyllabusCard = ({ syllabus,remove }) => {
 
     const [links, setLinks] = useState([])
     const [deleteModal, setDeleteModal] = useState(false)
@@ -56,6 +17,7 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll,remove, edit }) => {
     const [selectedSyll, setSelectedSyll] = useState(syllabus)
     const [toast, setToast] = useState(false)
     const [msg, setMsg] = useState('')
+    
     useEffect(()=>{
             loadLinks()
         
@@ -68,25 +30,10 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll,remove, edit }) => {
             [name]: value
         }))
     }
-
-    const deleteLink = (id) => {
-        setLinks(links.filter(link => link._id !== id))
-    }
-
-    //! Lo actualiza correctamente, pero no se actualizan (visualmente) los links hasta cerrar el modal
-    const changeState = (id) => {
-        var newLinks = links
-        newLinks.map(link => {
-            if (link._id === id) {
-                link.state = 1
-            }
-        })
-        setLinks(newLinks)
-    }
     
     const onUpdate = async (e) => { 
     e.preventDefault();
-    if(selectedSyll.newTitle=="" || selectedSyll.newTitle==undefined){
+    if(selectedSyll.newTitle==="" || selectedSyll.newTitle==undefined){
         setMsg("Ingrese un nombre")
         setToast(true)
     }else{
@@ -180,7 +127,6 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll,remove, edit }) => {
     return (
         <Col md="3" className='mb-4'>
             <Card className='animate__animated animate__fadeInDown syllCard'>
-                {/* Forma 1 */}
                 <Card.Body>
                     <div className="d-flex bd-highlight">
                         <Card.Title className='me-auto p-2 bd-highlight'>{selectedSyll.title}</Card.Title>
