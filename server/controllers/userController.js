@@ -15,7 +15,7 @@ const register= async (req, res)=>{
         const user= new User(req.body)
         user.token=generateId();
         const savedUser= await user.save()
-    res.json(savedUser)
+    res.json(`Se ha ingresado correctamente al usuario`)
 
     } catch (error) {
         console.log(error)

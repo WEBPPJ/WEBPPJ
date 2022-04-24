@@ -86,7 +86,7 @@ const SyllabusCard = ({ syllabus, deleteSyll, initialSyll,remove, edit }) => {
     
     const onUpdate = async (e) => { 
     e.preventDefault();
-    if(selectedSyll.newTitle==""){
+    if(selectedSyll.newTitle=="" || selectedSyll.newTitle==undefined){
         setMsg("Ingrese un nombre")
         setToast(true)
     }else{

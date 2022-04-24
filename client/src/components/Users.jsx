@@ -85,16 +85,20 @@ const Users = () => {
             ...prevState,
             [name]: value
         }))
-        console.log(selectedUser);
     }
 
     const onSubmit = async (e) => {
         e.preventDefault();
-       if (selectedUser.code!==0) {
+        if(!selectedUser.code || !selectedUser.password){
+            setMsg("Los campos no pueden estar vacios")
+            setToast(true)
+        }else{
            const code=selectedUser.code
+           const password=selectedUser.password
            const role=selectedUser.rol
          const user = {
            code,
+           password,
            role
         }
           await axios
@@ -103,7 +107,8 @@ const Users = () => {
               const { data } = res;
               setTimeout(() => {
                 setAddModal(false)
-                
+                setMsg(data)
+                setToast(true)
                
               }, 1500);
             })
@@ -124,11 +129,9 @@ const Users = () => {
         setToast(true)
        }else {
            const code=selectedUser.code
-           const password=selectedUser.password
            const role=selectedUser.rol
          const user = {
            code,
-           password,
            role
         }
           await axios
@@ -139,7 +142,6 @@ const Users = () => {
                 setEditModal(false)
                 setMsg(data)
                 setToast(true)
-                console.log(user)
                 
                
               }, 1500);
@@ -173,7 +175,6 @@ const Users = () => {
             .then((res) => {
               const { data } = res;
               setTimeout(() => {
-                console.log(data)
                 setDeleteModal(false)
                 
                
