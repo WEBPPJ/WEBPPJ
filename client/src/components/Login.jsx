@@ -30,11 +30,21 @@ const Login = () => {
          .post("http://localhost:3001/api/users/login", user)
          .then((res) => {
            const { data } = res;
-           setMessage(data.msg);
            setTimeout(() => {
-             console.log(user)
+             console.log(data.role)
              setMessage("");
-             navigate(`/plan`);
+             if (data.role==='user'){
+              console.log(data.role)
+              navigate(`/plans/${user.code}`);
+             }
+             if (data.role==='support'){
+              console.log(data.role)
+              navigate(`/users/${user.code}`);
+             }
+             if (data.role==='admin'){
+              console.log(data.role)
+              navigate(`/plan/${user.code}`);
+             }
            }, 1500);
          })
          .catch((error) => {

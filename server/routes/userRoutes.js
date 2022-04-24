@@ -7,6 +7,7 @@ const checkAuth=require('../middleware/checkAuth')
 router.post('/',user.register)
 router.post('/login', user.authenticate)
 router.post('/update', user.update)
+router.post('/password', user.password)
 router.post('/activate', user.activate)
 router.get('/all', user.all)
 

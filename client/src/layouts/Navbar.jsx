@@ -19,10 +19,10 @@ const NavbarExample = () => {
                         <Nav className="me-auto">
                             <Nav.Link as={Link} to={routes.users}>Usuarios</Nav.Link>
                             <Nav.Link as={Link} to={routes.plan}>Administración</Nav.Link>
-                            <Nav.Link as={Link} to={routes.planes}>Planes de estudio</Nav.Link>
+                            <Nav.Link as={Link} to={routes.plans}>Planes de estudio</Nav.Link>
                         </Nav>
                         <Nav>
-                            <Nav.Link as={Link} to={routes.login}>Login</Nav.Link>
+                            <Nav.Link as={Link} to={routes.login}>Iniciar Sesión</Nav.Link>
                             {user && <Nav.Text>{user.name}</Nav.Text> }
                         </Nav>
                     </Navbar.Collapse>

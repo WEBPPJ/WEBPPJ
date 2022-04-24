@@ -7,16 +7,13 @@ import Users from './components/Users';
 import NavbarExample from './layouts/Navbar';
 import Syllabus from './components/Syllabus';
 import routes from './auth/helpers/routes';
-import PrivateRoute from './routers/PrivateRoute';
-import PublicRoute from './routers/PublicRoute';
-import AuthProvider from './auth/AuthProvider';
 import SyllabusUsers from './components/SyllabusUsers';
 import AccountPage from './components/Account';
 
 function App() {
   return (
     <div className="App">
-      
+
       <BrowserRouter>
         
         <Routes>
@@ -25,7 +22,7 @@ function App() {
               <Route path={routes.users} element={<Users/>}/>
               <Route path={routes.login} element={<Login/>}/>
               <Route path={routes.plan} element={<Syllabus/>}/>
-              <Route path={routes.planes} element={<SyllabusUsers/>}/>
+              <Route path={routes.plans} element={<SyllabusUsers/>}/>
               <Route path={routes.account} element={<AccountPage/>}/>
               <Route path="*" element={ <Navigate replace to="/"/> } />
           </Route>

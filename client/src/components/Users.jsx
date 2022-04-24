@@ -9,6 +9,7 @@ import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import { MdAdd } from 'react-icons/md'
 import axios from 'axios'
 import 'animate.css';
+import { FcIdea, FcRefresh } from 'react-icons/fc'
 
 
 
@@ -54,6 +55,7 @@ const Users = () => {
     const [users, setUsers] = useState([])
     const [editModal, setEditModal] = useState(false)
     const [deleteModal, setDeleteModal] = useState(false)
+    const [passwordModal, setPasswordModal] = useState(false)
     const [addModal, setAddModal] = useState(false)
     const [toast, setToast] = useState(false)
     const [msg, setMsg] = useState('')
@@ -117,10 +119,6 @@ const Users = () => {
       };
       const onUpdate = async (e) => {
         e.preventDefault();
-       if (selectedUser.password.length>=1 && selectedUser.password.length<=5){
-        setMsg("Si se desea cambiar la contraseña, ingrese mas de 5 carácteres")
-        setToast(true)
-       }else {
            const code=selectedUser.code
            const role=selectedUser.rol
          const user = {
@@ -145,8 +143,31 @@ const Users = () => {
                 
               }, 1500);
             });
-          
+      };
+      const password = async (e) => {
+        e.preventDefault();
+           const code=selectedUser.code
+         const user = {
+           code
         }
+          await axios
+            .post("http://localhost:3001/api/users/password", user)
+            .then((res) => {
+              const { data } = res;
+              setTimeout(() => {
+                setPasswordModal(false)
+                setMsg(data)
+                setToast(true)
+                
+               
+              }, 1500);
+            })
+            .catch((error) => {
+              console.error(error);
+              setTimeout(() => {
+                
+              }, 1500);
+            });
       };
       const loadUsers = () => {
 
@@ -217,7 +238,7 @@ const Users = () => {
                                                 <td>{user.code}</td>
                                                 <td>
                                                     <OverlayTrigger placement='left' overlay={<Tooltip>Editar Usuario</Tooltip>}><Button className='mx-2' variant="primary" onClick={() => selectUser(user, 'Edit')}><AiFillEdit /></Button></OverlayTrigger>
-                                                    <OverlayTrigger placement='right' overlay={<Tooltip>Eliminar Usuario</Tooltip>}><Button variant="danger" onClick={() => selectUser(user, 'Delete')}><AiFillDelete /></Button></OverlayTrigger>
+                                                    <OverlayTrigger placement='right' overlay={<Tooltip>Cambiar estado</Tooltip>}><Button variant="danger" onClick={()=> selectUser(user, 'Delete')}><AiFillDelete /></Button></OverlayTrigger>
                                                 </td>
                                             </tr>
                                         ))
@@ -270,6 +291,11 @@ const Users = () => {
                             }
                         </Form.Select>
                         <br />
+                        <Button onClick={() => {
+                            setPasswordModal(true)
+                        }}
+                            variant='info'>¿Deseas restablecer la contraseña a 'password'? <FcRefresh /></Button>
+                        <br />
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
@@ -291,7 +317,7 @@ const Users = () => {
             {/*Modal de Eliminar */}
             <Modal show={deleteModal}>
                 <Modal.Body>
-                    Estás seguro que deseas al usuario con código: {selectedUser && selectedUser.code}
+                    Estás seguro que deseas cambiar el estado del usuario con código {selectedUser && selectedUser.code} a inactivo
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
@@ -303,6 +329,26 @@ const Users = () => {
                     <Button
                         variant="outline-secondary"
                         onClick={() => setDeleteModal(false)}
+                    >
+                        No
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            {/*Modal de cambio de contraseña*/}
+            <Modal show={passwordModal}>
+                <Modal.Body>
+                    Estás seguro que deseas restablecer la contraseña del usuario {selectedUser && selectedUser.code} a 'password'
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button
+                        variant="danger"
+                        onClick={(e)=>password(e)}
+                    >
+                        Sí
+                    </Button>
+                    <Button
+                        variant="outline-secondary"
+                        onClick={() => setPasswordModal(false)}
                     >
                         No
                     </Button>

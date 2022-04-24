@@ -15,7 +15,7 @@ const register= async (req, res)=>{
         const user= new User(req.body)
         user.token=generateId();
         const savedUser= await user.save()
-    res.json(`Se ha ingresado correctamente al usuario`)
+    res.json(savedUser)
 
     } catch (error) {
         console.log(error)
@@ -40,6 +40,7 @@ const authenticate =async (req, res)=>{
         res.json({
             _id: user._id,
             code: user.code,
+            role: user.role,
             token: generateJWT(user._id),
         })
     }else{
@@ -66,6 +67,25 @@ const update =async (req, res)=>{
     
 
 }
+const password =async (req, res)=>{
+    
+    const { code} =req.body;
+    //buscar usuario
+    const user = await User.findOne({code});
+    if (!user){
+        const error= new Error('El usuario no existe')
+        return res.status(404).json({msg: error.message})
+    }else{
+        const password='password'
+        await User.findOneAndUpdate({code}, {password})
+        res.json(
+            "Contraseña del usuario actualizada"
+        
+        )
+    }
+    
+
+}
 const activate =async (req, res)=>{
     
     const { code,  active} =req.body;
@@ -76,10 +96,15 @@ const activate =async (req, res)=>{
         return res.status(404).json({msg: error.message})
     }else{
         await User.findOneAndUpdate({code}, { active})
-        res.json(
-            "el estado ha sido cambiado a '"+ active+"'"
-        
-        )
+        if (active=true){
+            res.json(
+                "el estado ha sido cambiado a 'activo'"
+            )
+        }else{
+            res.json(
+                "el estado ha sido cambiado a 'inactivo'"
+            )
+        }
     }
 }
 const all =async (req,res)=>{
@@ -94,4 +119,4 @@ const profile =async (req, res)=>{
     res.json(user)
 }
 
-module.exports= {register, authenticate, update, activate, all, profile};
+module.exports= {register, authenticate, update, password, activate, all, profile};
