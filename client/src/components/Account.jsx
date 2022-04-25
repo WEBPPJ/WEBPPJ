@@ -72,7 +72,7 @@ export default function AccountPage() {
             <Row className="mt-4">
                 <Col xs={12}>
                     <img
-                        src="/img/female_avatar.svg"
+                        src="/img/male_avatar.svg"
                         alt="profile"
                         style={{
                             width: '200px',

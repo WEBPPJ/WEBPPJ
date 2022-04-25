@@ -102,14 +102,16 @@ const activate =async (req, res)=>{
         const error= new Error('El usuario no existe')
         return res.status(404).json({msg: error.message})
     }else{
-        await User.findOneAndUpdate({code}, { active})
-        if (active=true){
-            res.json(
-                "el estado ha sido cambiado a 'activo'"
-            )
-        }else{
+        console.log(active)
+        if (active===false){
+            await User.findOneAndUpdate({code}, { active})
             res.json(
                 "el estado ha sido cambiado a 'inactivo'"
+            )
+        }else{
+            await User.findOneAndUpdate({code}, { active})
+            res.json(
+                "el estado ha sido cambiado a 'activo'"
             )
         }
     }

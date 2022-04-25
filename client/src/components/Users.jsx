@@ -5,7 +5,7 @@ import { RiAdminFill } from 'react-icons/ri'
 import { IconContext } from 'react-icons/lib'
 import { BiSupport } from 'react-icons/bi'
 import { FaUserAlt } from 'react-icons/fa'
-import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
+import { AiFillEye,AiFillEyeInvisible, AiFillEdit } from 'react-icons/ai'
 import { MdAdd } from 'react-icons/md'
 import axios from 'axios'
 import 'animate.css';
@@ -181,7 +181,7 @@ const Users = () => {
         e.preventDefault();
        if (selectedUser.code!==0) {
            const code=selectedUser.code
-           const active=false
+           const active=!selectedUser.active
          const user = {
            code,
            active
@@ -191,6 +191,8 @@ const Users = () => {
             .then((res) => {
               const { data } = res;
               setTimeout(() => {
+                setMsg(data)
+                setToast(true)
                 setDeleteModal(false)
                 
                
@@ -240,7 +242,8 @@ const Users = () => {
                                                 <td>{user.code}</td>
                                                 <td>
                                                     <OverlayTrigger placement='left' overlay={<Tooltip>Editar Usuario</Tooltip>}><Button className='mx-2' variant="primary" onClick={() => selectUser(user, 'Edit')}><AiFillEdit /></Button></OverlayTrigger>
-                                                    <OverlayTrigger placement='right' overlay={<Tooltip>Cambiar estado</Tooltip>}><Button variant="danger" onClick={()=> selectUser(user, 'Delete')}><AiFillDelete /></Button></OverlayTrigger>
+                                                    {user.active==true &&<OverlayTrigger placement='right' overlay={<Tooltip>Cambiar estado</Tooltip>}><Button variant="danger" onClick={()=> selectUser(user, 'Delete')}><AiFillEyeInvisible /></Button></OverlayTrigger>}
+                                                    {user.active==false &&<OverlayTrigger placement='right' overlay={<Tooltip>Cambiar estado</Tooltip>}><Button variant="info" onClick={()=> selectUser(user, 'Delete')}><AiFillEye /></Button></OverlayTrigger>}
                                                 </td>
                                             </tr>
                                         ))
@@ -318,9 +321,12 @@ const Users = () => {
 
             {/*Modal de Eliminar */}
             <Modal show={deleteModal}>
-                <Modal.Body>
-                    Estás seguro que deseas cambiar el estado del usuario con código {selectedUser && selectedUser.code} a inactivo
-                </Modal.Body>
+                {selectedUser.active &&<Modal.Body>
+                    Estás seguro que deseas cambiar el estado del usuario con código {selectedUser && selectedUser.code} a 'inactivo'
+                </Modal.Body>}
+                {!selectedUser.active &&<Modal.Body>
+                    Estás seguro que deseas cambiar el estado del usuario con código {selectedUser && selectedUser.code} a 'activo'
+                </Modal.Body>}
                 <Modal.Footer>
                     <Button
                         variant="danger"

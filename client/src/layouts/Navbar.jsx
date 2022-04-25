@@ -31,6 +31,7 @@ const NavbarExample = () => {
                         <Nav className="me-auto">
                             {code && user.role=='support' && <Nav.Link as={Link} to={`users/${code}`}>Usuarios</Nav.Link>}
                             {code && user.role=='admin' && <Nav.Link as={Link} to={`plan/${code}`}>Administración</Nav.Link>}
+                            {code && user.role=='admin'&&<Nav.Link as={Link} to={`plans/${code}`}>Planes de estudio</Nav.Link>}
                             {code && user.role=='user'&&<Nav.Link as={Link} to={`plans/${code}`}>Planes de estudio</Nav.Link>}
                         </Nav>
                         <Nav>
