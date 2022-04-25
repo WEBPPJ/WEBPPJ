@@ -147,8 +147,10 @@ const Users = () => {
       const password = async (e) => {
         e.preventDefault();
            const code=selectedUser.code
+           const password='password'
          const user = {
-           code
+           code,
+           password
         }
           await axios
             .post("http://localhost:3001/api/users/password", user)

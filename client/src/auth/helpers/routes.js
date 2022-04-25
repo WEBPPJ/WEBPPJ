@@ -6,7 +6,7 @@ const routes ={
     login:'users/login',
     plan:'/plan/:code',
     plans: '/plans/:code',
-    account: '/account'
+    account: '/account/:code'
     
 }
 

@@ -67,16 +67,22 @@ const update =async (req, res)=>{
     
 
 }
+const data =async(req, res)=>{
+    const { code } = req.params
+    User
+        .findOne({code})
+        .then(user => res.json(user))
+
+}
 const password =async (req, res)=>{
     
-    const { code} =req.body;
+    const { code, password} =req.body;
     //buscar usuario
     const user = await User.findOne({code});
     if (!user){
         const error= new Error('El usuario no existe')
         return res.status(404).json({msg: error.message})
     }else{
-        const password='password'
         await User.findOneAndUpdate({code}, {password})
         res.json(
             "Contraseña del usuario actualizada"
@@ -86,6 +92,7 @@ const password =async (req, res)=>{
     
 
 }
+
 const activate =async (req, res)=>{
     
     const { code,  active} =req.body;
@@ -119,4 +126,4 @@ const profile =async (req, res)=>{
     res.json(user)
 }
 
-module.exports= {register, authenticate, update, password, activate, all, profile};
+module.exports= {register, authenticate, update, data, password, activate, all, profile};

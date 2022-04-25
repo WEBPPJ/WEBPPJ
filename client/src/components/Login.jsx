@@ -34,16 +34,16 @@ const Login = () => {
              console.log(data.role)
              setMessage("");
              if (data.role==='user'){
-              console.log(data.role)
-              navigate(`/plans/${user.code}`);
+              console.log(data)
+              navigate(`/plans/${data.code}`);
              }
              if (data.role==='support'){
-              console.log(data.role)
-              navigate(`/users/${user.code}`);
+              console.log(data)
+              navigate(`/users/${data.code}`);
              }
              if (data.role==='admin'){
-              console.log(data.role)
-              navigate(`/plan/${user.code}`);
+              console.log(data)
+              navigate(`/plan/${data.code}`);
              }
            }, 1500);
          })

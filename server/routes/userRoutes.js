@@ -10,6 +10,7 @@ router.post('/update', user.update)
 router.post('/password', user.password)
 router.post('/activate', user.activate)
 router.get('/all', user.all)
+router.get('/data/:code', user.data)
 
 router.get('/profile', checkAuth, user.profile)
 
