@@ -102,7 +102,7 @@ const Users = () => {
               const { data } = res;
               setTimeout(() => {
                 setAddModal(false)
-                setMsg(data)
+                setMsg("Usuario creado con exito")
                 setToast(true)
                
               }, 1500);
