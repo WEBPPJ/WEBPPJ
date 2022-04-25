@@ -11,7 +11,7 @@ const Footer = () => {
             <IconContext.Provider value={{ color: "white", className: "global-class-name" }}>
 
             <div className="svg">
-                <OverlayTrigger placement='top' overlay={<Tooltip>Sitio Web Oficial</Tooltip>}><a href="https://www.aclti.com" target="_blank" rel="noreferrer"><BiWorld /></a></OverlayTrigger>
+                <OverlayTrigger placement='top' overlay={<Tooltip>Sitio web oficial</Tooltip>}><a href="https://www.aclti.com" target="_blank" rel="noreferrer"><BiWorld /></a></OverlayTrigger>
             </div>
             <div className="svg">
                 <OverlayTrigger placement='top' overlay={<Tooltip>Facebook</Tooltip>}><a href="https://www.facebook.com/aclconsultores/" target="_blank" rel="noreferrer"><FaFacebookF /></a></OverlayTrigger>

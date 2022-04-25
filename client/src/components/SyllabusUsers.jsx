@@ -98,7 +98,7 @@ const SyllabusUsers = () => {
                 ? (<LoadingSpinner/>)
                 :(
                     ((syllabus.length === 0 || !syllabus) 
-                    ? (<Alert variant='primary'>Actualmente no hay planes de Estudio</Alert>)
+                    ? (<Alert variant='primary'>Actualmente no hay planes de estudio</Alert>)
                     :(<Swiper
                         slidesPerView={3}
                         spaceBetween={30}
@@ -119,13 +119,13 @@ const SyllabusUsers = () => {
                                             <Card.Body>
                                                 <div className="d-flex bd-highlight">
                                                     <Card.Title className='me-auto p-2 bd-highlight'>{element.title}</Card.Title>
-                                                    <Card.Subtitle>Plan de Estudio ACL</Card.Subtitle>
+                                                    <Card.Subtitle>Plan de estudio ACL</Card.Subtitle>
                                                 </div>
                                                 <div className="pb-4 position-absolute bottom-0 start-50 translate-middle-x">
                                                     <Button onClick={() => {
                                                         setSelectedSyll(element)
                                                         setViewModal(true)
-                                                    }} className='w-100' variant='secondary'>Ver Enlaces</Button>
+                                                    }} className='w-100' variant='secondary'>Ver enlaces</Button>
                                                 </div>
                                                 <img
                                                     className='img-fluid position-absolute top-50 start-50 translate-middle'
@@ -152,13 +152,13 @@ const SyllabusUsers = () => {
                 <Modal.Body>
                     <div className="d-flex justify-content-between">
                         <h5 className="">
-                            Enlaces Disponibles
+                            Enlaces disponibles
                         </h5>
                         <Button onClick={() => {
                             setSuggestModal(true)
                             setViewModal(false)
                         }}
-                            variant='info'>¿Tienes alguna sugerencia? Añadela <FcIdea /></Button>
+                            variant='info'>¿Tienes alguna sugerencia? Añadela! <FcIdea /></Button>
                     </div>
                     <div className="d-flex align-items-start flex-column bd-highlight mb-3">
                         {

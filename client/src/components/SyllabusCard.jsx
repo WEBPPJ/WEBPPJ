@@ -130,13 +130,13 @@ const SyllabusCard = ({ syllabus,remove }) => {
                 <Card.Body>
                     <div className="d-flex bd-highlight">
                         <Card.Title className='me-auto p-2 bd-highlight'>{selectedSyll.title}</Card.Title>
-                        <OverlayTrigger placement='top' overlay={<Tooltip>Editar Plan de Estudio</Tooltip>}>
+                        <OverlayTrigger placement='top' overlay={<Tooltip>Editar plan de estudio</Tooltip>}>
                         <Button onClick={() => {
                             setEditModal(true)
                         }}
                             className='me-2 cardButton'><MdModeEdit /></Button>
                         </OverlayTrigger>
-                        <OverlayTrigger placement='top' overlay={<Tooltip>Eliminar Plan de Estudio</Tooltip>}>
+                        <OverlayTrigger placement='top' overlay={<Tooltip>Eliminar plan de estudio</Tooltip>}>
                         <Button onClick={() => {
                             setDeleteModal(true)
                         }}
@@ -147,14 +147,14 @@ const SyllabusCard = ({ syllabus,remove }) => {
                     </div>
                     <div className="pt-2">
 
-                        <Button className='w-100' variant='secondary' onClick={() => setViewModal(true)}> Ver Enlaces </Button>
+                        <Button className='w-100' variant='secondary' onClick={() => setViewModal(true)}> Ver enlaces </Button>
                     </div>
                 </Card.Body>
             </Card>
             {/*Modal de Eliminar */}
             <Modal show={deleteModal}>
                 <Modal.Body>
-                    Estás Seguro que deseas eliminar el plan de Estudio '{selectedSyll.title}'
+                    Estás seguro de que deseas eliminar el plan de estudio '{selectedSyll.title}'
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
@@ -182,7 +182,7 @@ const SyllabusCard = ({ syllabus,remove }) => {
             <Modal show={editModal}>
                 <Modal.Header>
                     <div>
-                        <h3>Editar Plan de Estudio</h3>
+                        <h3>Editar plan de estudio</h3>
                     </div>
                 </Modal.Header>
                 <Modal.Body>
@@ -248,7 +248,7 @@ const SyllabusCard = ({ syllabus,remove }) => {
                             <thead>
                                 <tr>
                                     <th className='text-center'>Estado</th>
-                                    <th className='text-center'>Titulo</th>
+                                    <th className='text-center'>Título</th>
                                     <th className='text-center'>URL</th>
                                     <th className='text-center'>Acciones</th>
                                 </tr>
@@ -267,21 +267,21 @@ const SyllabusCard = ({ syllabus,remove }) => {
                                                 <td className='text-center'>
                                                     {
                                                         link.active? (
-                                                        <OverlayTrigger placement='right' overlay={<Tooltip>Eliminar Enlace</Tooltip>}>
+                                                        <OverlayTrigger placement='right' overlay={<Tooltip>Eliminar enlace</Tooltip>}>
                                                         <Button variant='outline-danger' onClick={() => {
                                                             setMsg(`Enlace ${link.link} eliminado correctamente`)
                                                             setToast(true)
                                                         }} className='me-2'><AiFillDelete /></Button>
                                                         </OverlayTrigger>):(
                                                             <div className="">
-                                                            <OverlayTrigger placement='left' overlay={<Tooltip>Aceptar Enlace</Tooltip>}>
+                                                            <OverlayTrigger placement='left' overlay={<Tooltip>Aceptar enlace</Tooltip>}>
                                                             <Button variant='outline-success' onClick={() => {
                                                                 activate(link)
                                                                 setMsg(`Enlace ${link.link} aceptado correctamente`)
                                                                 setToast(true)
                                                             }} className='me-2'><MdCheck /></Button>
                                                             </OverlayTrigger>
-                                                            <OverlayTrigger placement='right' overlay={<Tooltip>Denegar Enlace</Tooltip>}>
+                                                            <OverlayTrigger placement='right' overlay={<Tooltip>Denegar enlace</Tooltip>}>
                                                             <Button variant='outline-danger' onClick={() => {
                                                                 unactivate(link)
                                                                 setMsg(`Enlace ${link.link} denegado correctamente`)

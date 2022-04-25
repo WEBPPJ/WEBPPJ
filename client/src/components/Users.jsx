@@ -221,7 +221,7 @@ const Users = () => {
                             <Row>
                                 <h5>Usuarios</h5>
                                 <div className="d-flex justify-content-end px-4">
-                                    <OverlayTrigger placement='bottom-start' overlay={<Tooltip>Añadir Usuario</Tooltip>}><Button onClick={() => openAddModal()} variant="success"><IconContext.Provider value={{ color: "white" }}><MdAdd /></IconContext.Provider></Button></OverlayTrigger>
+                                    <OverlayTrigger placement='bottom-start' overlay={<Tooltip>Añadir usuario</Tooltip>}><Button onClick={() => openAddModal()} variant="success"><IconContext.Provider value={{ color: "white" }}><MdAdd /></IconContext.Provider></Button></OverlayTrigger>
                                 </div>
                             </Row>
                         </Card.Title>
@@ -259,7 +259,7 @@ const Users = () => {
             <Modal show={editModal}>
                 <Modal.Header>
                     <div>
-                        <h3>Editar Usuario</h3>
+                        <h3>Editar usuario</h3>
                     </div>
                 </Modal.Header>
                 <Modal.Body>
@@ -345,7 +345,7 @@ const Users = () => {
             {/*Modal de cambio de contraseña*/}
             <Modal show={passwordModal}>
                 <Modal.Body>
-                    Estás seguro que deseas restablecer la contraseña del usuario {selectedUser && selectedUser.code} a 'password'
+                    Estás seguro de que deseas restablecer la contraseña del usuario {selectedUser && selectedUser.code} a 'password'
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
@@ -367,7 +367,7 @@ const Users = () => {
             <Modal show={addModal}>
                 <Modal.Header>
                     <div>
-                        <h3>Agregar Usuario</h3>
+                        <h3>Agregar usuario</h3>
                     </div>
                 </Modal.Header>
                 <Modal.Body>

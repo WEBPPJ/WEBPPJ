@@ -71,8 +71,8 @@ const Login = () => {
       </video>
 
       <div className="formContainer">
-        <h3>Bienvenido a la pagina</h3>
-        <h2>De Inicio de Sesión!</h2>
+        <h3>Bienvenido a la página</h3>
+        <h2>De inicio de sesión!</h2>
         <form>
           <div className="inputContainer">
             <div className="left">
@@ -93,6 +93,7 @@ const Login = () => {
           <div className="inputContainer">
             <div className="left">
               <label htmlFor="password">Contraseña</label>
+
               <input
                onChange={(e) => HandleChange(e)}
                 value={password}

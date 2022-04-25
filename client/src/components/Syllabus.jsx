@@ -111,9 +111,9 @@ const Syllabus = () => {
     <Container className='p-4'>
       <Row md="6" className='d-grid gap-2 d-md-flex justify-content-md-end mb-2'>
         <Alert color="info" show={loadingAxios}>
-        <AiOutlineLoading className='loadingIcon'/> Cargando Peticion
+        <AiOutlineLoading className='loadingIcon'/> Cargando peticion
       </Alert>
-        <Button className='rounded-pill' onClick={() => setAddModal(true)}>Agregar Plan de Estudio</Button> {/*<IconContext.Provider value={{size: "2em" }}><AiFillFolderAdd/></IconContext.Provider> */}
+        <Button className='rounded-pill' onClick={() => setAddModal(true)}>Agregar plan de estudio</Button> {/*<IconContext.Provider value={{size: "2em" }}><AiFillFolderAdd/></IconContext.Provider> */}
       </Row>
       <Row>
         {
@@ -135,7 +135,7 @@ const Syllabus = () => {
       <Modal show={addModal}>
         <Modal.Header>
           <div>
-            <h3>Agregar Plan de Estudio</h3>
+            <h3>Agregar plan de estudio</h3>
           </div>
         </Modal.Header>
         <Modal.Body>
